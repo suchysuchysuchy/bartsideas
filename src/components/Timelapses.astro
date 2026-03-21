@@ -33,7 +33,7 @@ const timelapses = [
           </button>
           <div class="tl-body">
             <div class="tl-body-content">
-              <div class={`tl-embed ${item.vertical ? 'tl-embed--vertical' : ''}`}>
+              <div class="tl-embed">
                 <iframe
                   src={`https://www.youtube.com/embed/${item.youtubeId}`}
                   frameborder="0"
@@ -141,7 +141,7 @@ const timelapses = [
   }
 
   .tl-item.open .tl-body {
-    max-height: 900px;
+    max-height: 600px;
     opacity: 1;
   }
 
@@ -153,18 +153,12 @@ const timelapses = [
   .tl-embed {
     position: relative;
     width: 100%;
-    max-width: 400px;
+    max-width: 300px;
+    max-height: 534px;
     aspect-ratio: 9 / 16;
-    margin: 12px auto 0;
+    margin: 16px auto 0;
     border-radius: 12px;
     overflow: hidden;
-  }
-
-  .tl-embed--vertical {
-    aspect-ratio: 9 / 16;
-    max-width: 400px;
-    margin: 12px auto 0;
-    border-radius: 12px;
   }
 
   .tl-embed iframe {
