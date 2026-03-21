@@ -5,13 +5,15 @@
   <div class="lightbox-backdrop"></div>
   <div class="lightbox-content">
     <button class="lightbox-close" aria-label="Close">&times;</button>
-    <div class="lightbox-image" id="lightbox-image"></div>
+    <img class="lightbox-image" id="lightbox-image" src="" alt="" />
     <div class="lightbox-info">
       <h3 class="lightbox-title" id="lightbox-title"></h3>
       <div class="lightbox-meta">
-        <span class="lightbox-catalog" id="lightbox-catalog"></span>
+        <span id="lightbox-catalog"></span>
+        <span class="lightbox-divider" id="lightbox-divider">&middot;</span>
+        <span id="lightbox-integration"></span>
         <span class="lightbox-divider">&middot;</span>
-        <span class="lightbox-integration" id="lightbox-integration"></span>
+        <span id="lightbox-gear"></span>
       </div>
     </div>
   </div>
@@ -20,18 +22,28 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const lightbox = document.getElementById('lightbox');
+    const lbImage = document.getElementById('lightbox-image');
     const lbTitle = document.getElementById('lightbox-title');
     const lbCatalog = document.getElementById('lightbox-catalog');
     const lbIntegration = document.getElementById('lightbox-integration');
-    const lbImage = document.getElementById('lightbox-image');
+    const lbGear = document.getElementById('lightbox-gear');
+    const lbDivider = document.getElementById('lightbox-divider');
 
-    if (!lightbox || !lbTitle || !lbCatalog || !lbIntegration || !lbImage) return;
+    if (!lightbox || !lbImage || !lbTitle || !lbCatalog || !lbIntegration || !lbGear) return;
 
     function openLightbox(data) {
+      lbImage.src = data.imageSrc;
+      lbImage.alt = data.title;
       lbTitle.textContent = data.title;
       lbCatalog.textContent = data.catalog;
-      lbIntegration.textContent = data.integration + ' integration';
-      lbImage.style.background = 'radial-gradient(ellipse at center, ' + data.color + '25, #111320)';
+      if (data.integration) {
+        lbIntegration.textContent = data.integration + ' integration';
+        lbDivider.style.display = '';
+      } else {
+        lbIntegration.textContent = '';
+        lbDivider.style.display = 'none';
+      }
+      lbGear.textContent = data.gear || '';
       lightbox.classList.add('open');
       lightbox.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
@@ -43,7 +55,6 @@
       document.body.style.overflow = '';
     }
 
-    // Open on thumbnail click (event delegation from document)
     document.addEventListener('click', (e) => {
       const thumb = e.target.closest('[data-photo]');
       if (thumb) {
@@ -52,13 +63,9 @@
       }
     });
 
-    // Close on X button
     lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
-
-    // Close on backdrop click
     lightbox.querySelector('.lightbox-backdrop').addEventListener('click', closeLightbox);
 
-    // Close on Escape
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeLightbox();
     });
@@ -95,7 +102,7 @@
     position: relative;
     z-index: 1;
     width: 90%;
-    max-width: 720px;
+    max-width: 900px;
     transform: scale(0.92) translateY(20px);
     transition: transform 0.3s ease;
   }
@@ -127,9 +134,12 @@
   }
 
   .lightbox-image {
-    aspect-ratio: 16 / 10;
+    width: 100%;
+    height: auto;
+    max-height: 75vh;
+    object-fit: contain;
     border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
+    display: block;
     background: var(--color-bg-card);
   }
 
