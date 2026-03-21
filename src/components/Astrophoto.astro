@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import Lightbox from './Lightbox.astro';
 
 import ngc7000 from '../assets/images/NGC7000v11-2.jpg';
@@ -35,10 +34,9 @@ const photos = [
           })}
           aria-label={`View ${photo.title}`}
         >
-          <Image
-            src={photo.image}
+          <img
+            src={photo.image.src}
             alt={photo.title}
-            width={600}
             loading="eager"
             class="astro-card-img"
           />

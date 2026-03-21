@@ -11,7 +11,8 @@
       "Bash(node:*)",
       "Bash(rm *.png)",
       "Bash(rm GX011494_1756274446525_exported_20020.jpg)",
-      "Bash(rm Image01_clone_DBE_clone.jpg)"
+      "Bash(rm Image01_clone_DBE_clone.jpg)",
+      "Bash(ls:*)"
     ]
   }
 }
