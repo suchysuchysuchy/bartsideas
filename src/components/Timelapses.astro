@@ -3,7 +3,7 @@ const timelapses = [
   {
     title: 'Startrails in Częstochowa city centre',
     youtubeId: 'LZjbOY1_MdU',
-    vertical: false,
+    vertical: true,
   },
   {
     title: 'Crocus vernus',
@@ -141,7 +141,7 @@ const timelapses = [
   }
 
   .tl-item.open .tl-body {
-    max-height: 700px;
+    max-height: 900px;
     opacity: 1;
   }
 
@@ -153,16 +153,18 @@ const timelapses = [
   .tl-embed {
     position: relative;
     width: 100%;
-    max-width: 800px;
-    aspect-ratio: 16 / 9;
-    margin-top: 12px;
-    border-radius: 8px;
+    max-width: 400px;
+    aspect-ratio: 9 / 16;
+    margin: 12px auto 0;
+    border-radius: 12px;
     overflow: hidden;
   }
 
   .tl-embed--vertical {
     aspect-ratio: 9 / 16;
-    max-width: 350px;
+    max-width: 400px;
+    margin: 12px auto 0;
+    border-radius: 12px;
   }
 
   .tl-embed iframe {
