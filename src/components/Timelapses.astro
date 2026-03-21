@@ -1,28 +1,8 @@
 ---
 const timelapses = [
   {
-    title: 'Milky Way Rising over Jura',
-    duration: '4h 20min',
-    frames: '1,240',
-    date: 'Aug 2025',
-  },
-  {
-    title: 'Star Trails — Częstochowa',
-    duration: '6h 10min',
-    frames: '2,180',
-    date: 'Jun 2025',
-  },
-  {
-    title: 'Northern Lights from Tromsø',
-    duration: '3h 45min',
-    frames: '980',
-    date: 'Mar 2025',
-  },
-  {
-    title: 'Moonrise over Tatras',
-    duration: '2h 30min',
-    frames: '720',
-    date: 'Jan 2025',
+    title: 'Timelapse of Crocus vernus',
+    youtubeId: 'AQ4yF-b8wEY',
   },
 ];
 ---
@@ -47,19 +27,18 @@ const timelapses = [
           </button>
           <div class="tl-body">
             <div class="tl-body-content">
-              <div class="tl-meta">
-                <span>{item.duration}</span>
-                <span class="tl-dot">&middot;</span>
-                <span>{item.frames} frames</span>
-                <span class="tl-dot">&middot;</span>
-                <span>{item.date}</span>
-              </div>
-              <div class="tl-video">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M8 5L20 12L8 19V5Z" fill="currentColor" opacity="0.3" />
-                </svg>
-                <span>Video embed</span>
-              </div>
+              {item.youtubeId && (
+                <iframe
+                  width="100%"
+                  height="315"
+                  src={`https://www.youtube.com/embed/${item.youtubeId}`}
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                  loading="lazy"
+                  style="border-radius: 8px; margin-top: 12px;"
+                ></iframe>
+              )}
             </div>
           </div>
         </div>
@@ -159,7 +138,7 @@ const timelapses = [
   }
 
   .tl-item.open .tl-body {
-    max-height: 300px;
+    max-height: 400px;
     opacity: 1;
   }
 
