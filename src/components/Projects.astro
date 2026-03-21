@@ -5,6 +5,8 @@ const projects = [
     title: 'Seestar S50 Mods',
     description: 'Custom modifications for the ZWO Seestar S50 — 3D printed dew heater mount, power delivery bypass, and custom firmware tweaks for longer exposures.',
     color: 'var(--color-accent)',
+    videoUrl: 'https://youtu.be/SA5N3KXY_a0',
+    videoLabel: 'Watch disassembly on YouTube',
   },
   {
     tag: 'Build',
@@ -39,6 +41,11 @@ const projects = [
           <div class="proj-body">
             <div class="proj-body-content">
               <p class="proj-desc">{project.description}</p>
+              {project.videoUrl && (
+                <a href={project.videoUrl} target="_blank" rel="noopener noreferrer" class="proj-video-link">
+                  {project.videoLabel} <span class="proj-link-arrow">&nearr;</span>
+                </a>
+              )}
               <span class="proj-link">View project <span class="proj-link-arrow">&nearr;</span></span>
             </div>
           </div>
@@ -160,6 +167,21 @@ const projects = [
     line-height: 1.7;
     margin-bottom: 12px;
     max-width: 520px;
+  }
+
+  .proj-video-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-accent);
+    margin-bottom: 10px;
+    transition: opacity 0.2s ease;
+  }
+
+  .proj-video-link:hover {
+    opacity: 0.7;
   }
 
   .proj-link {
