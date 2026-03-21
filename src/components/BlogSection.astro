@@ -1,7 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('blog'))
+const allPosts = await getCollection('blog').catch(() => []);
+const posts = allPosts
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 5);
 
@@ -23,35 +24,38 @@ function readingTime(body: string): string {
       <h2 class="section-title">Blog</h2>
     </div>
 
-    <ul class="blog-list">
-      {posts.map((post, i) => (
-        <li class="fade-up" style={`--delay: ${i * 0.1}s`}>
-          <a href={`/blog/${post.id}`} class="blog-item">
-            <div class="blog-item-left">
-              <time class="blog-date" datetime={post.data.date.toISOString()}>
-                {formatDate(post.data.date)}
-              </time>
-              <h3 class="blog-title">{post.data.title}</h3>
-            </div>
-            <div class="blog-item-right">
-              <span class="blog-tag">{post.data.tag}</span>
-              <span class="blog-read-time">{readingTime(post.body || '')}</span>
-            </div>
-          </a>
-        </li>
-      ))}
-    </ul>
-
-    <div class="blog-cta fade-up">
-      <a href="/blog" class="blog-cta-link">
-        View all posts
-        <span class="blog-cta-arrow">→</span>
-      </a>
-    </div>
+    {posts.length > 0 ? (
+      <ul class="blog-list">
+        {posts.map((post, i) => (
+          <li class="fade-up" style={`--delay: ${i * 0.1}s`}>
+            <a href={`/blog/${post.id}`} class="blog-item">
+              <div class="blog-item-left">
+                <time class="blog-date" datetime={post.data.date.toISOString()}>
+                  {formatDate(post.data.date)}
+                </time>
+                <h3 class="blog-title">{post.data.title}</h3>
+              </div>
+              <div class="blog-item-right">
+                <span class="blog-tag">{post.data.tag}</span>
+                <span class="blog-read-time">{readingTime(post.body || '')}</span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="blog-empty fade-up">Coming soon</p>
+    )}
   </div>
 </section>
 
 <style>
+  .blog-empty {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-dim);
+  }
+
   .blog-list {
     display: flex;
     flex-direction: column;
