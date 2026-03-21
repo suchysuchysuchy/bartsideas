@@ -3,7 +3,7 @@ const timelapses = [
   {
     title: 'Startrails in Częstochowa city centre',
     youtubeId: 'LZjbOY1_MdU',
-    vertical: true,
+    vertical: false,
   },
   {
     title: 'Crocus vernus',
@@ -33,7 +33,7 @@ const timelapses = [
           </button>
           <div class="tl-body">
             <div class="tl-body-content">
-              <div class="tl-embed">
+              <div class={`tl-embed ${item.vertical ? 'tl-embed--vertical' : 'tl-embed--horizontal'}`}>
                 <iframe
                   src={`https://www.youtube.com/embed/${item.youtubeId}`}
                   frameborder="0"
@@ -149,16 +149,24 @@ const timelapses = [
     padding: 0 0 20px 38px;
   }
 
-  /* Embed wrapper */
+  /* Embed wrapper — shared */
   .tl-embed {
     position: relative;
     width: 100%;
-    max-width: 300px;
-    max-height: 534px;
-    aspect-ratio: 9 / 16;
     margin: 16px auto 0;
     border-radius: 12px;
     overflow: hidden;
+  }
+
+  .tl-embed--horizontal {
+    max-width: 700px;
+    aspect-ratio: 16 / 9;
+  }
+
+  .tl-embed--vertical {
+    max-width: 300px;
+    max-height: 534px;
+    aspect-ratio: 9 / 16;
   }
 
   .tl-embed iframe {
