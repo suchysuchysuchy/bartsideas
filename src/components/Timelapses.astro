@@ -1,0 +1,203 @@
+---
+const timelapses = [
+  {
+    title: 'Milky Way Rising over Jura',
+    duration: '4h 20min',
+    frames: '1,240',
+    date: 'Aug 2025',
+  },
+  {
+    title: 'Star Trails — Częstochowa',
+    duration: '6h 10min',
+    frames: '2,180',
+    date: 'Jun 2025',
+  },
+  {
+    title: 'Northern Lights from Tromsø',
+    duration: '3h 45min',
+    frames: '980',
+    date: 'Mar 2025',
+  },
+  {
+    title: 'Moonrise over Tatras',
+    duration: '2h 30min',
+    frames: '720',
+    date: 'Jan 2025',
+  },
+];
+---
+
+<section id="timelapses" class="section">
+  <div class="container">
+    <div class="fade-up">
+      <p class="section-label">02 — Motion</p>
+      <h2 class="section-title">Timelapses</h2>
+    </div>
+
+    <div class="tl-list fade-up" id="tl-list">
+      {timelapses.map((item) => (
+        <div class="tl-item">
+          <button class="tl-row">
+            <span class="tl-play">
+              <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
+                <path d="M1 1L9 6L1 11V1Z" fill="currentColor" />
+              </svg>
+            </span>
+            <span class="tl-title">{item.title}</span>
+          </button>
+          <div class="tl-body">
+            <div class="tl-body-content">
+              <div class="tl-meta">
+                <span>{item.duration}</span>
+                <span class="tl-dot">&middot;</span>
+                <span>{item.frames} frames</span>
+                <span class="tl-dot">&middot;</span>
+                <span>{item.date}</span>
+              </div>
+              <div class="tl-video">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M8 5L20 12L8 19V5Z" fill="currentColor" opacity="0.3" />
+                </svg>
+                <span>Video embed</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const list = document.getElementById('tl-list');
+    if (!list) return;
+
+    list.addEventListener('click', (e) => {
+      const row = e.target.closest('.tl-row');
+      if (!row) return;
+
+      const item = row.closest('.tl-item');
+      if (!item) return;
+
+      const isOpen = item.classList.contains('open');
+
+      // Close all open items
+      list.querySelectorAll('.tl-item.open').forEach((el) => {
+        el.classList.remove('open');
+      });
+
+      // Toggle clicked item
+      if (!isOpen) {
+        item.classList.add('open');
+      }
+    });
+  });
+</script>
+
+<style>
+  .tl-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tl-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .tl-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 14px 0;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: var(--color-text);
+    font-family: inherit;
+    transition: color 0.2s ease;
+  }
+
+  .tl-row:hover {
+    color: var(--color-accent);
+  }
+
+  .tl-play {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-dim);
+    flex-shrink: 0;
+    transition: transform 0.3s ease, color 0.2s ease;
+  }
+
+  .tl-item.open .tl-play {
+    transform: rotate(90deg);
+    color: var(--color-accent);
+  }
+
+  .tl-row:hover .tl-play {
+    color: var(--color-accent);
+  }
+
+  .tl-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: left;
+  }
+
+  /* Accordion body */
+  .tl-body {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+  }
+
+  .tl-item.open .tl-body {
+    max-height: 300px;
+    opacity: 1;
+  }
+
+  .tl-body-content {
+    padding: 0 0 20px 38px;
+  }
+
+  .tl-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-text-dim);
+    margin-bottom: 14px;
+  }
+
+  .tl-dot {
+    opacity: 0.4;
+  }
+
+  .tl-video {
+    aspect-ratio: 16 / 9;
+    max-width: 420px;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--color-text-dim);
+  }
+
+  .tl-video span {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    opacity: 0.5;
+  }
+</style>

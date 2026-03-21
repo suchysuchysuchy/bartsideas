@@ -1,0 +1,128 @@
+---
+import Lightbox from './Lightbox.astro';
+
+const photos = [
+  { id: '01', title: 'Orion Nebula', catalog: 'M42', integration: '120 min', color: '#6b8aff' },
+  { id: '02', title: 'Andromeda Galaxy', catalog: 'M31', integration: '180 min', color: '#a06bff' },
+  { id: '03', title: 'Pleiades Cluster', catalog: 'M45', integration: '90 min', color: '#6b8aff' },
+  { id: '04', title: 'Heart Nebula', catalog: 'IC 1805', integration: '240 min', color: '#ff6b8a' },
+  { id: '05', title: 'Horsehead Nebula', catalog: 'B33', integration: '150 min', color: '#a06bff' },
+  { id: '06', title: 'Lagoon Nebula', catalog: 'M8', integration: '100 min', color: '#ff6b8a' },
+];
+---
+
+<section id="astrophoto" class="section">
+  <div class="container">
+    <div class="fade-up">
+      <p class="section-label">01 — Gallery</p>
+      <h2 class="section-title">Astrophoto</h2>
+    </div>
+
+    <div class="astro-grid fade-up">
+      {photos.map((photo) => (
+        <button
+          class="astro-card"
+          data-photo={JSON.stringify(photo)}
+          aria-label={`View ${photo.title}`}
+        >
+          <div class="astro-card-bg" style={`background: radial-gradient(ellipse at 40% 40%, ${photo.color}30, ${photo.color}08 60%, #111320 100%)`}></div>
+          <span class="astro-card-number">#{photo.id}</span>
+          <div class="astro-card-label">
+            <span class="astro-card-name">{photo.title}</span>
+            <span class="astro-card-meta">{photo.catalog} · {photo.integration}</span>
+          </div>
+        </button>
+      ))}
+    </div>
+  </div>
+</section>
+
+<Lightbox />
+
+<style>
+  .astro-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .astro-card {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid var(--color-border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    background: #111320;
+    padding: 0;
+    display: block;
+    width: 100%;
+  }
+
+  .astro-card:hover {
+    transform: scale(1.02);
+    border-color: var(--color-border-hover);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  }
+
+  .astro-card-bg {
+    position: absolute;
+    inset: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .astro-card:hover .astro-card-bg {
+    opacity: 1.3;
+    filter: brightness(1.3);
+  }
+
+  .astro-card-number {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.35);
+    z-index: 1;
+  }
+
+  .astro-card-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 24px 16px 14px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    z-index: 1;
+  }
+
+  .astro-card-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .astro-card-meta {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  @media (max-width: 768px) {
+    .astro-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .astro-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

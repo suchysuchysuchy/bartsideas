@@ -1,0 +1,158 @@
+---
+---
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <div class="lightbox-backdrop"></div>
+  <div class="lightbox-content">
+    <button class="lightbox-close" aria-label="Close">&times;</button>
+    <div class="lightbox-image" id="lightbox-image"></div>
+    <div class="lightbox-info">
+      <h3 class="lightbox-title" id="lightbox-title"></h3>
+      <div class="lightbox-meta">
+        <span class="lightbox-catalog" id="lightbox-catalog"></span>
+        <span class="lightbox-divider">&middot;</span>
+        <span class="lightbox-integration" id="lightbox-integration"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const lightbox = document.getElementById('lightbox');
+    const lbTitle = document.getElementById('lightbox-title');
+    const lbCatalog = document.getElementById('lightbox-catalog');
+    const lbIntegration = document.getElementById('lightbox-integration');
+    const lbImage = document.getElementById('lightbox-image');
+
+    if (!lightbox || !lbTitle || !lbCatalog || !lbIntegration || !lbImage) return;
+
+    function openLightbox(data) {
+      lbTitle.textContent = data.title;
+      lbCatalog.textContent = data.catalog;
+      lbIntegration.textContent = data.integration + ' integration';
+      lbImage.style.background = 'radial-gradient(ellipse at center, ' + data.color + '25, #111320)';
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    // Open on thumbnail click (event delegation from document)
+    document.addEventListener('click', (e) => {
+      const thumb = e.target.closest('[data-photo]');
+      if (thumb) {
+        const data = JSON.parse(thumb.getAttribute('data-photo'));
+        openLightbox(data);
+      }
+    });
+
+    // Close on X button
+    lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+
+    // Close on backdrop click
+    lightbox.querySelector('.lightbox-backdrop').addEventListener('click', closeLightbox);
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  });
+</script>
+
+<style>
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .lightbox.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .lightbox-content {
+    position: relative;
+    z-index: 1;
+    width: 90%;
+    max-width: 720px;
+    transform: scale(0.92) translateY(20px);
+    transition: transform 0.3s ease;
+  }
+
+  .lightbox.open .lightbox-content {
+    transform: scale(1) translateY(0);
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: -52px;
+    right: 0;
+    font-size: 2rem;
+    color: var(--color-text-dim);
+    transition: color 0.2s ease;
+    line-height: 1;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+
+  .lightbox-close:hover {
+    color: var(--color-text);
+  }
+
+  .lightbox-image {
+    aspect-ratio: 16 / 10;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+  }
+
+  .lightbox-info {
+    padding: var(--space-md) 0;
+  }
+
+  .lightbox-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .lightbox-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-dim);
+  }
+
+  .lightbox-divider {
+    opacity: 0.4;
+  }
+</style>

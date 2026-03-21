@@ -1,0 +1,183 @@
+---
+const navItems = [
+  { label: 'Gallery', href: '/#astrophoto' },
+  { label: 'Motion', href: '/#timelapses' },
+  { label: 'Builds', href: '/#projects' },
+  { label: 'Writing', href: '/#blog' },
+];
+---
+
+<nav class="nav">
+  <div class="nav-inner container">
+    <a href="/" class="nav-logo">
+      bart's<span class="nav-logo-accent">ideas</span>
+    </a>
+
+    <ul class="nav-links">
+      {navItems.map((item) => (
+        <li>
+          <a href={item.href} class="nav-link">{item.label}</a>
+        </li>
+      ))}
+    </ul>
+
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+  </div>
+
+  <div class="nav-mobile">
+    <ul class="nav-mobile-links">
+      {navItems.map((item) => (
+        <li>
+          <a href={item.href} class="nav-mobile-link">{item.label}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<script>
+  const toggle = document.querySelector('.nav-toggle');
+  const mobile = document.querySelector('.nav-mobile');
+  const nav = document.querySelector('.nav');
+
+  toggle?.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    mobile?.classList.toggle('open');
+  });
+
+  // Close mobile menu on link click
+  document.querySelectorAll('.nav-mobile-link').forEach((link) => {
+    link.addEventListener('click', () => {
+      toggle?.setAttribute('aria-expanded', 'false');
+      mobile?.classList.remove('open');
+    });
+  });
+
+  // Shrink nav on scroll
+  window.addEventListener('scroll', () => {
+    nav?.classList.toggle('scrolled', window.scrollY > 50);
+  });
+</script>
+
+<style>
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(8, 9, 14, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid transparent;
+    transition: var(--transition-base);
+  }
+
+  .nav.scrolled {
+    border-bottom-color: var(--color-border);
+    background: rgba(8, 9, 14, 0.85);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--nav-height);
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-logo-accent {
+    font-style: italic;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: var(--space-md);
+  }
+
+  .nav-link {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+    text-transform: uppercase;
+  }
+
+  .nav-link:hover {
+    color: var(--color-text);
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    width: 28px;
+    padding: 4px 0;
+  }
+
+  .nav-toggle-bar {
+    display: block;
+    width: 100%;
+    height: 1.5px;
+    background: var(--color-text);
+    transition: var(--transition-fast);
+    transform-origin: center;
+  }
+
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bar:first-child {
+    transform: translateY(3.75px) rotate(45deg);
+  }
+
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bar:last-child {
+    transform: translateY(-3.75px) rotate(-45deg);
+  }
+
+  .nav-mobile {
+    display: none;
+    padding: 0 var(--space-md) var(--space-md);
+  }
+
+  .nav-mobile.open {
+    display: block;
+  }
+
+  .nav-mobile-link {
+    display: block;
+    padding: var(--space-sm) 0;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--color-text-muted);
+    border-bottom: 1px solid var(--color-border);
+    transition: color var(--transition-fast);
+  }
+
+  .nav-mobile-link:hover {
+    color: var(--color-text);
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+    }
+
+    .nav-toggle {
+      display: flex;
+    }
+  }
+</style>

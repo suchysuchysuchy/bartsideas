@@ -1,0 +1,126 @@
+---
+const socialLinks = [
+  { label: 'GitHub', href: 'https://github.com/bartsideas' },
+  { label: 'Instagram', href: 'https://instagram.com/bartsideas' },
+  { label: 'YouTube', href: 'https://youtube.com/@bartsideas' },
+];
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-line"></div>
+
+    <div class="footer-content">
+      <div class="footer-logo">
+        bart's<span class="footer-logo-accent">ideas</span>
+      </div>
+
+      <div class="footer-links">
+        {socialLinks.map((link) => (
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="footer-link"
+          >
+            {link.label}
+            <span class="footer-link-arrow">↗</span>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <p class="footer-copy">
+      © 2026 Bartłomiej Suchanek · Częstochowa, Poland
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding: var(--space-xl) 0 var(--space-md);
+  }
+
+  .footer-line {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-border),
+      transparent
+    );
+    margin-bottom: var(--space-lg);
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+  }
+
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+
+  .footer-logo-accent {
+    font-style: italic;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: var(--space-md);
+  }
+
+  .footer-link {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .footer-link:hover {
+    color: var(--color-accent);
+  }
+
+  .footer-link-arrow {
+    font-size: 0.7rem;
+    opacity: 0;
+    transform: translateY(2px);
+    transition: var(--transition-fast);
+  }
+
+  .footer-link:hover .footer-link-arrow {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .footer-copy {
+    font-size: 0.8rem;
+    color: var(--color-text-dim);
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+      gap: var(--space-md);
+      text-align: center;
+    }
+
+    .footer-links {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+</style>

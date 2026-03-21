@@ -1,0 +1,200 @@
+---
+const projects = [
+  {
+    tag: 'Craft',
+    title: 'Meteorite Ring',
+    description: 'Handcrafted ring with Muonionalusta meteorite inlay, Widmanstätten pattern etched in acid. Damascus steel band forged from 200+ layers.',
+    color: 'var(--color-accent-pink)',
+  },
+  {
+    tag: 'Mod',
+    title: 'Seestar S50 Mods',
+    description: 'Custom modifications for the ZWO Seestar S50 — 3D printed dew heater mount, power delivery bypass, and custom firmware tweaks for longer exposures.',
+    color: 'var(--color-accent)',
+  },
+  {
+    tag: 'Build',
+    title: '3D Printed Orrery',
+    description: 'Mechanically accurate solar system model. Gear-driven with 0.1mm tolerance. PLA + brass inserts, driven by a stepper motor with Arduino control.',
+    color: 'var(--color-accent-purple)',
+  },
+];
+---
+
+<section id="projects" class="section">
+  <div class="container">
+    <div class="fade-up">
+      <p class="section-label">03 — Builds</p>
+      <h2 class="section-title">Projects</h2>
+    </div>
+
+    <div class="proj-list fade-up" id="proj-list">
+      {projects.map((project) => (
+        <div class="proj-item" style={`--proj-color: ${project.color}`}>
+          <button class="proj-row">
+            <div class="proj-left">
+              <span class="proj-tag">{project.tag}</span>
+              <span class="proj-title">{project.title}</span>
+            </div>
+            <span class="proj-arrow">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <div class="proj-body">
+            <div class="proj-body-content">
+              <p class="proj-desc">{project.description}</p>
+              <span class="proj-link">View project <span class="proj-link-arrow">&nearr;</span></span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const list = document.getElementById('proj-list');
+    if (!list) return;
+
+    list.addEventListener('click', (e) => {
+      const row = e.target.closest('.proj-row');
+      if (!row) return;
+
+      const item = row.closest('.proj-item');
+      if (!item) return;
+
+      const isOpen = item.classList.contains('open');
+
+      // Close all open items
+      list.querySelectorAll('.proj-item.open').forEach((el) => {
+        el.classList.remove('open');
+      });
+
+      // Toggle clicked item
+      if (!isOpen) {
+        item.classList.add('open');
+      }
+    });
+  });
+</script>
+
+<style>
+  .proj-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .proj-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .proj-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 14px 0;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: var(--color-text);
+    font-family: inherit;
+    transition: color 0.2s ease;
+  }
+
+  .proj-row:hover {
+    color: var(--color-accent);
+  }
+
+  .proj-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .proj-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--proj-color, var(--color-accent));
+    min-width: 44px;
+  }
+
+  .proj-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: left;
+  }
+
+  .proj-arrow {
+    color: var(--color-text-dim);
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+  }
+
+  .proj-item.open .proj-arrow {
+    transform: rotate(180deg);
+  }
+
+  /* Accordion body */
+  .proj-body {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+  }
+
+  .proj-item.open .proj-body {
+    max-height: 200px;
+    opacity: 1;
+  }
+
+  .proj-body-content {
+    padding: 0 0 20px 60px;
+  }
+
+  .proj-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: 12px;
+    max-width: 520px;
+  }
+
+  .proj-link {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--proj-color, var(--color-accent));
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: opacity 0.2s ease;
+  }
+
+  .proj-link:hover {
+    opacity: 0.7;
+  }
+
+  .proj-link-arrow {
+    font-size: 0.85rem;
+    transition: transform 0.2s ease;
+  }
+
+  .proj-link:hover .proj-link-arrow {
+    transform: translate(2px, -2px);
+  }
+
+  @media (max-width: 480px) {
+    .proj-body-content {
+      padding-left: 0;
+    }
+  }
+</style>

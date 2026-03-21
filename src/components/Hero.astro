@@ -1,0 +1,114 @@
+---
+---
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-content fade-up">
+      <h1 class="hero-title">
+        bart's<span class="hero-title-accent">ideas</span>
+      </h1>
+      <p class="hero-subtitle">
+        Astrophotography · Timelapses · Builds · Thoughts
+      </p>
+      <div class="hero-line"></div>
+    </div>
+
+    <a href="#astrophoto" class="scroll-indicator" aria-label="Scroll down">
+      <div class="scroll-indicator-line"></div>
+    </a>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding-top: var(--nav-height);
+  }
+
+  .hero-content {
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: clamp(3.5rem, 12vw, 9rem);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: var(--space-md);
+  }
+
+  .hero-title-accent {
+    font-style: italic;
+    font-weight: 600;
+    background: linear-gradient(
+      135deg,
+      var(--color-accent),
+      var(--color-accent-purple),
+      var(--color-accent-pink)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-family: var(--font-mono);
+    font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+    letter-spacing: 0.12em;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+  }
+
+  .hero-line {
+    width: 60px;
+    height: 1px;
+    margin: var(--space-lg) auto 0;
+    background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+    animation: lineExpand 2s ease forwards;
+  }
+
+  @keyframes lineExpand {
+    from {
+      width: 0;
+      opacity: 0;
+    }
+    to {
+      width: 60px;
+      opacity: 1;
+    }
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: var(--space-lg);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .scroll-indicator-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--color-accent), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% {
+      opacity: 0.3;
+      transform: scaleY(0.6);
+      transform-origin: top;
+    }
+    50% {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+  }
+</style>
