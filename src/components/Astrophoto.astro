@@ -39,6 +39,7 @@ const photos = [
             src={photo.image}
             alt={photo.title}
             width={600}
+            loading="eager"
             class="astro-card-img"
           />
           <span class="astro-card-number">#{photo.id}</span>
@@ -67,6 +68,7 @@ const photos = [
 
   .astro-card {
     position: relative;
+    aspect-ratio: 4 / 3;
     border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
@@ -85,8 +87,11 @@ const photos = [
   }
 
   .astro-card-img {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
     transition: filter 0.3s ease;
   }
