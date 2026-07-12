@@ -1,79 +1,127 @@
 ---
-import Nav from '../components/Nav.astro';
-import Stars from '../components/Stars.astro';
-import Footer from '../components/Footer.astro';
 import '../styles/global.css';
+import { getImage } from 'astro:assets';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../config';
+import defaultOg from '../assets/images/NGC7000v11-2.jpg';
 
 interface Props {
   title: string;
-  description?: string;
-  image?: string;
+  description: string;
+  /** Obraz do podglądu OG (social media); domyślnie kadr hero. */
+  ogImage?: ImageMetadata;
+  /** Dodatkowy JSON-LD (schema.org) dla podstrony. */
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+  /** Język dokumentu. */
+  lang?: string;
+  /** false = treść zaczyna się pod samą górą (hero pełnoekranowe). */
+  padTop?: boolean;
 }
 
 const {
   title,
-  description = "Astrophotography, timelapses, builds, and thoughts by Bartłomiej Suchanek.",
-  image = "/og-image.jpg",
+  description,
+  ogImage = defaultOg,
+  schema,
+  lang = 'pl',
+  padTop = true,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const og = await getImage({ src: ogImage, width: 1200, format: 'jpg' });
+const ogUrl = new URL(og.src, Astro.site);
+const canonical = new URL(Astro.url.pathname, Astro.site);
+
+const baseSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: SITE.owner,
+  jobTitle: 'Fotograf',
+  brand: SITE.name,
+  url: Astro.site?.toString(),
+  address: { '@type': 'PostalAddress', addressLocality: 'Częstochowa', addressCountry: 'PL' },
+};
+
+const schemas = [baseSchema, ...(schema ? (Array.isArray(schema) ? schema : [schema]) : [])];
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="generator" content={Astro.generator} />
+<!doctype html>
+<html lang={lang} class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="generator" content={Astro.generator} />
 
-  <title>{title}</title>
-  <meta name="description" content={description} />
-  <link rel="canonical" href={canonicalURL} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogUrl} />
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content={canonicalURL} />
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
-  <meta property="og:image" content={image} />
+    {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content={title} />
-  <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={image} />
+    <script is:inline>
+      document.documentElement.classList.remove('no-js');
+    </script>
+  </head>
+  <body>
+    <a
+      href="#tresc"
+      class="tech absolute left-4 top-4 z-50 -translate-y-24 bg-night-raised px-4 py-2 transition-transform focus:translate-y-0"
+    >
+      Przejdź do treści
+    </a>
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-</head>
-<body>
-  <Stars />
-  <div class="ambient-glow glow-1"></div>
-  <div class="ambient-glow glow-2"></div>
-  <div class="ambient-glow glow-3"></div>
-  <div class="grain-overlay"></div>
+    <Nav />
 
-  <Nav />
+    <main id="tresc" class:list={['flex-1', padTop && 'pt-24 md:pt-28']}>
+      <slot />
+    </main>
 
-  <main>
-    <slot />
-  </main>
+    <Footer />
 
-  <Footer />
+    <!-- Sygnatura „revelare abscondita”: kadry ujawniają się z czerni
+         przy wejściu w viewport. Przy prefers-reduced-motion CSS wyłącza
+         animację, więc observer tylko dodaje klasę bez efektu. -->
+    <script>
+      const revealables = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-revealed');
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+        );
+        revealables.forEach((el) => io.observe(el));
+      } else {
+        revealables.forEach((el) => el.classList.add('is-revealed'));
+      }
+    </script>
 
-  <script>
-    // Fade-up on scroll
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-    );
-
-    document.querySelectorAll('.fade-up').forEach((el) => observer.observe(el));
-  </script>
-</body>
+    {
+      SITE.cloudflareAnalyticsToken && (
+        <script
+          is:inline
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={JSON.stringify({ token: SITE.cloudflareAnalyticsToken })}
+        />
+      )
+    }
+  </body>
 </html>

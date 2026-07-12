@@ -1,0 +1,63 @@
+---
+/**
+ * Jedyny komponent renderujący zdjęcia: AVIF/WebP + srcset, lazy loading,
+ * LQIP (rozmyty mini-podgląd jako tło) i sygnaturowy efekt „ujawniania”.
+ * EXIF znika przy transformacji (sharp nie przenosi metadanych),
+ * a do przeglądarki nigdy nie trafia plik szerszy niż 2048 px.
+ */
+import { getImage } from 'astro:assets';
+
+interface Props {
+  image: ImageMetadata;
+  alt: string;
+  sizes?: string;
+  loading?: 'lazy' | 'eager';
+  fetchpriority?: 'high' | 'auto';
+  reveal?: boolean;
+  /** Klasy dla ramki (figure) — np. proporcje, wysokość. */
+  class?: string;
+  /** Wymuś proporcje ramki (domyślnie naturalne proporcje zdjęcia). */
+  aspect?: string;
+}
+
+const {
+  image,
+  alt,
+  sizes = '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw',
+  loading = 'lazy',
+  fetchpriority = 'auto',
+  reveal = true,
+  class: className = '',
+  aspect,
+} = Astro.props;
+
+const maxW = Math.min(image.width, 2048);
+const widths = [480, 800, 1200, 1600, 2048].filter((w) => w < maxW).concat(maxW);
+
+const avif = await getImage({ src: image, widths, format: 'avif' });
+const webp = await getImage({ src: image, widths, format: 'webp' });
+const lqip = await getImage({ src: image, width: 24, format: 'webp', quality: 30 });
+
+const ratio = aspect ?? `${image.width} / ${image.height}`;
+---
+
+<figure
+  class:list={['overflow-hidden bg-night-raised', reveal && 'reveal', className]}
+  style={`aspect-ratio: ${ratio}; background-image: url(${lqip.src}); background-size: cover; background-position: center;`}
+>
+  <picture>
+    <source type="image/avif" srcset={avif.srcSet.attribute} sizes={sizes} />
+    <img
+      src={webp.src}
+      srcset={webp.srcSet.attribute}
+      sizes={sizes}
+      alt={alt}
+      width={image.width}
+      height={image.height}
+      loading={loading}
+      decoding="async"
+      fetchpriority={fetchpriority}
+      class="h-full w-full object-cover"
+    />
+  </picture>
+</figure>

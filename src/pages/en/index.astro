@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE } from '../../config';
+---
+
+<BaseLayout
+  title="Revelare — Bartłomiej Suchanek · macro & astro photography"
+  description="Revelare abscondita — to reveal the hidden. Macro photography of Jura invertebrates and astrophotography of rare TLE phenomena. English version coming soon."
+  lang="en"
+>
+  <div class="flex min-h-[55dvh] flex-col items-center justify-center px-6 text-center">
+    <h1 class="display text-5xl md:text-6xl">{SITE.name}</h1>
+    <p class="latin mt-4 text-xl text-moss">{SITE.motto}</p>
+    <p class="mt-6 max-w-md text-sm text-dim">
+      The English version of this site is on its way. In the meantime, the photographs
+      speak every language.
+    </p>
+    <a href="/" class="btn mt-10">Przejdź do wersji polskiej</a>
+  </div>
+</BaseLayout>

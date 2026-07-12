@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config';
+---
+
+<BaseLayout
+  title="Regulamin sklepu | Revelare"
+  description="Regulamin sprzedaży wydruków fine art i plików cyfrowych na stronie Revelare."
+>
+  <div class="mx-auto max-w-3xl px-5 md:px-8">
+    <p class="kicker mb-3">Dokumenty</p>
+    <h1 class="display mb-6 text-4xl md:text-5xl">Regulamin</h1>
+
+    <p class="tech mb-10 border border-line-strong bg-night-raised p-4 !text-[0.72rem]">
+      [DO WERYFIKACJI PRAWNEJ] Poniższy tekst jest szkicem przygotowanym bez udziału
+      prawnika. Przed uruchomieniem sprzedaży zweryfikuj go z osobą uprawnioną.
+    </p>
+
+    <div class="prose-revelare text-sm leading-relaxed">
+      <h2>§ 1. Sprzedawca</h2>
+      <p>
+        Sprzedawcą jest {SITE.seller.name}, osoba fizyczna prowadząca działalność
+        nierejestrowaną w rozumieniu art. 5 ustawy Prawo przedsiębiorców,
+        adres do korespondencji: {SITE.seller.address}, e-mail: {SITE.seller.email}.
+      </p>
+
+      <h2>§ 2. Przedmiot sprzedaży</h2>
+      <ul>
+        <li>
+          <strong>Wydruki fine art</strong> — odbitki pigmentowe wykonywane na zamówienie,
+          sygnowane; w edycjach limitowanych dodatkowo numerowane.
+        </li>
+        <li>
+          <strong>Pliki cyfrowe</strong> — fotografie w formie elektronicznej z licencją
+          użytku osobistego (<a href="/licencja">pełna treść licencji</a>).
+        </li>
+      </ul>
+
+      <h2>§ 3. Zamówienia i płatności</h2>
+      <ul>
+        <li>
+          Zakup wydruku odbywa się przez bezpieczny link płatności Stripe (karta, BLIK,
+          Przelewy24). Ceny podane przy produktach są cenami brutto w złotych polskich.
+        </li>
+        <li>
+          Zakup pliku cyfrowego odbywa się za pośrednictwem platformy Lemon Squeezy,
+          która dostarcza plik automatycznie po opłaceniu zamówienia.
+        </li>
+        <li>Zawarcie umowy następuje z chwilą opłacenia zamówienia.</li>
+      </ul>
+
+      <h2>§ 4. Realizacja i dostawa</h2>
+      <ul>
+        <li>Czas realizacji wydruku: <strong>5–10 dni roboczych</strong> od zaksięgowania płatności.</li>
+        <li>Wysyłka na terenie Polski; wysyłka do innych krajów UE — po wcześniejszym kontakcie.</li>
+        <li>Pliki cyfrowe dostarczane są automatycznie, zwykle w ciągu kilku minut od zakupu.</li>
+      </ul>
+
+      <h2>§ 5. Odstąpienie od umowy</h2>
+      <p>
+        Zasady odstąpienia od umowy opisuje osobny dokument:
+        <a href="/odstapienie-od-umowy">odstąpienie od umowy</a>.
+      </p>
+
+      <h2>§ 6. Reklamacje</h2>
+      <p>
+        Reklamacje (np. uszkodzenie przesyłki, wada wydruku, problem z plikiem) prosimy
+        zgłaszać na adres {SITE.seller.email}. Reklamacja zostanie rozpatrzona w terminie
+        14 dni. Sprzedawca odpowiada za zgodność towaru z umową na zasadach określonych
+        w ustawie o prawach konsumenta.
+      </p>
+
+      <h2>§ 7. Dane osobowe</h2>
+      <p>
+        Zasady przetwarzania danych osobowych opisuje
+        <a href="/polityka-prywatnosci">polityka prywatności</a>.
+      </p>
+
+      <h2>§ 8. Postanowienia końcowe</h2>
+      <p>
+        W sprawach nieuregulowanych stosuje się przepisy prawa polskiego, w szczególności
+        Kodeksu cywilnego oraz ustawy o prawach konsumenta. Konsument może skorzystać
+        z pozasądowych sposobów rozpatrywania sporów, w tym platformy ODR.
+      </p>
+
+      <p class="tech">Wersja: szkic 1.0 · [DO WERYFIKACJI PRAWNEJ]</p>
+    </div>
+  </div>
+</BaseLayout>

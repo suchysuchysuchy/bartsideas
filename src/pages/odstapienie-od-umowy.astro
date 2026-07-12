@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config';
+---
+
+<BaseLayout
+  title="Odstąpienie od umowy | Revelare"
+  description="Informacje o prawie odstąpienia od umowy przy zakupie wydruków fine art i plików cyfrowych."
+>
+  <div class="mx-auto max-w-3xl px-5 md:px-8">
+    <p class="kicker mb-3">Dokumenty</p>
+    <h1 class="display mb-6 text-4xl md:text-5xl">Odstąpienie od umowy</h1>
+
+    <p class="tech mb-10 border border-line-strong bg-night-raised p-4 !text-[0.72rem]">
+      [DO WERYFIKACJI PRAWNEJ] Poniższy tekst jest szkicem przygotowanym bez udziału
+      prawnika. Przed uruchomieniem sprzedaży zweryfikuj go z osobą uprawnioną.
+    </p>
+
+    <div class="prose-revelare text-sm leading-relaxed">
+      <h2>1. Wydruki fine art</h2>
+      <p>
+        Jako konsument masz prawo odstąpić od umowy w terminie <strong>14 dni</strong> od
+        otrzymania przesyłki, bez podania przyczyny. Aby to zrobić, wyślij oświadczenie
+        na adres {SITE.seller.email}, a następnie odeślij wydruk w stanie nienaruszonym
+        na adres: {SITE.seller.address}. Zwrot płatności nastąpi w ciągu 14 dni od
+        otrzymania zwracanego towaru.
+      </p>
+      <p>
+        [DO WERYFIKACJI PRAWNEJ] Uwaga: jeżeli wydruk jest wykonywany na indywidualne
+        zamówienie (np. nietypowy rozmiar ustalany z kupującym), prawo odstąpienia może
+        nie przysługiwać na podstawie art. 38 ust. 1 pkt 3 ustawy o prawach konsumenta —
+        wymaga to jednoznacznej oceny prawnej dla przyjętego modelu sprzedaży.
+      </p>
+
+      <h2>2. Pliki cyfrowe</h2>
+      <p>
+        W przypadku treści cyfrowych dostarczanych automatycznie po zakupie prawo
+        odstąpienia <strong>wygasa z chwilą rozpoczęcia dostarczania pliku</strong>,
+        zgodnie z art. 38 ust. 1 pkt 13 ustawy o prawach konsumenta — o czym kupujący
+        jest informowany przed zakupem i na co wyraża zgodę w procesie płatności.
+      </p>
+
+      <h2>3. Wzór oświadczenia o odstąpieniu</h2>
+      <p>
+        „Niniejszym informuję o odstąpieniu od umowy sprzedaży następujących rzeczy: […].
+        Data odbioru: […]. Imię i nazwisko konsumenta: […]. Adres: […]. Data: […].”
+      </p>
+
+      <p class="tech">Wersja: szkic 1.0 · [DO WERYFIKACJI PRAWNEJ]</p>
+    </div>
+  </div>
+</BaseLayout>

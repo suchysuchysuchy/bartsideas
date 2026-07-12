@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { SITE } from '../config';
+---
+
+<BaseLayout
+  title="Kontakt | Revelare"
+  description="Napisz do mnie — zapytania o wydruki, licencje komercyjne i sesje produktowe. Bartłomiej Suchanek, Częstochowa."
+>
+  <div class="mx-auto max-w-6xl px-5 md:px-8">
+    <header class="max-w-2xl pb-12">
+      <p class="kicker mb-3">Kontakt</p>
+      <h1 class="display text-5xl md:text-6xl">Napisz do mnie</h1>
+      <p class="mt-5 text-moss">
+        Wydruki, licencje komercyjne, sesje produktowe, współprace — odpowiadam zwykle
+        w 1–2 dni robocze.
+      </p>
+    </header>
+
+    <div class="grid gap-14 lg:grid-cols-2">
+      <ContactForm />
+
+      <aside class="space-y-8" aria-label="Dane kontaktowe">
+        <div>
+          <h2 class="kicker mb-2">E-mail</h2>
+          <a href={`mailto:${SITE.email}`} class="link-quiet text-lg">{SITE.email}</a>
+        </div>
+        <div>
+          <h2 class="kicker mb-2">W sieci</h2>
+          <ul class="space-y-1 text-sm">
+            <li><a class="link-quiet" href={SITE.instagram} rel="me noopener" target="_blank">Instagram</a></li>
+            <li><a class="link-quiet" href={SITE.inaturalist} rel="me noopener" target="_blank">iNaturalist</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="kicker mb-2">Pracownia</h2>
+          <p class="text-sm text-moss">{SITE.location}</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</BaseLayout>
