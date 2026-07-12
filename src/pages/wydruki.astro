@@ -1,8 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PhotoFrame from '../../components/PhotoFrame.astro';
-import { SITE } from '../../config';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhotoFrame from '../components/PhotoFrame.astro';
+import { SITE } from '../config';
 
 const prints = (await getCollection('prints'))
   .filter((p) => p.data.available)

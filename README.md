@@ -23,7 +23,7 @@ W każdym z trzech katalogów leży **wzorzec** (`_wzor-…md`) z komentarzem
 przy każdym polu. Pliki zaczynające się od `_` nie trafiają na stronę.
 
 Wszystko edytujesz bezpośrednio na GitHubie (przycisk ołówka przy pliku)
-albo lokalnie. Po zapisaniu zmian na gałęzi `main` Cloudflare Pages sam
+albo lokalnie. Po zapisaniu zmian na gałęzi `main` Cloudflare sam
 przebuduje i opublikuje stronę (2–3 minuty).
 
 ---
@@ -93,28 +93,28 @@ Lemon Squeezy sam rozlicza VAT i dostarcza plik kupującemu.
 2. Wklej go w `src/config.ts` w pole `web3formsKey`.
    Od tej chwili wiadomości z formularzy przychodzą na Twój e-mail.
 
-## Deploy na Cloudflare Pages — krok po kroku
+## Deploy na Cloudflare — jak to działa
 
-1. Załóż darmowe konto na [cloudflare.com](https://dash.cloudflare.com).
-2. W panelu: **Workers & Pages → Create → Pages → Connect to Git** —
-   autoryzuj GitHuba i wybierz repozytorium `bartsideas`.
-3. Ustawienia builda:
-   - **Framework preset:** Astro
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-4. Kliknij **Save and Deploy**. Po 2–3 minutach strona działa pod adresem
-   `*.pages.dev`. Od teraz każda zmiana na gałęzi `main` publikuje się sama.
+Repozytorium jest już podpięte do **Cloudflare Workers Builds**
+(konfiguracja w pliku `wrangler.jsonc` — nie ruszaj go):
+
+- każdy zapis na gałęzi `main` **automatycznie buduje i publikuje** stronę
+  produkcyjną (2–3 minuty),
+- każda inna gałąź dostaje własny **adres podglądowy** `*.workers.dev`
+  (link pojawia się w komentarzu bota pod pull requestem na GitHubie).
+
+Nie ma żadnego ręcznego wgrywania plików.
 
 ### Podpięcie własnej domeny
 
-1. W projekcie Pages: **Custom domains → Set up a custom domain** —
-   wpisz np. `bartsideas.com`.
+1. W panelu Cloudflare: **Workers & Pages → bartsideas → Settings →
+   Domains & Routes → Add → Custom domain** — wpisz np. `bartsideas.com`.
 2. Jeśli domena jest zarejestrowana poza Cloudflare, panel poprosi
    o zmianę serwerów DNS u rejestratora na wskazane przez Cloudflare
    (zmiana propaguje się do 24 h). Certyfikat SSL wystawi się sam.
 3. Jeżeli zmieniasz domenę na inną niż `bartsideas.com` — podmień adres
-   w **jednej linijce**: `site:` w pliku `astro.config.mjs` oraz
-   w `public/robots.txt`.
+   w **jednej linijce**: `site:` w pliku `astro.config.mjs`
+   (robots.txt i mapa strony wygenerują się z niej same).
 
 ### Statystyki odwiedzin (bez baneru cookies)
 

@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PhotoFrame from '../../components/PhotoFrame.astro';
 import { SITE } from '../../config';
@@ -14,10 +15,12 @@ const { Content } = await render(entry);
 const p = entry.data;
 
 const soldOut = p.edition !== null && p.sold >= p.edition;
-const buyable = p.available && !soldOut;
+const withdrawn = !p.available;
+const buyable = !withdrawn && !soldOut;
 
-const editionLabel =
-  p.edition === null
+const editionLabel = withdrawn
+  ? 'Wycofany ze sprzedaży'
+  : p.edition === null
     ? 'Edycja otwarta'
     : soldOut
       ? `Edycja limitowana ${p.edition} · wyprzedane`
@@ -25,15 +28,21 @@ const editionLabel =
 
 const licenseSubject = `Licencja komercyjna — ${p.title}`;
 
+const schemaImage = await getImage({ src: p.image, width: 1200, format: 'jpg' });
+const productUrl = new URL(`/wydruki/${entry.id}`, Astro.site).toString();
+
 const productSchema = {
   '@context': 'https://schema.org',
   '@type': 'Product',
   name: `${p.title} — wydruk fine art`,
   description: p.alt,
+  image: new URL(schemaImage.src, Astro.site).toString(),
+  url: productUrl,
   brand: { '@type': 'Brand', name: SITE.name },
   offers: p.variants.map((v) => ({
     '@type': 'Offer',
     name: `${v.size}, ${v.paper}`,
+    url: productUrl,
     price: v.price,
     priceCurrency: 'PLN',
     availability: buyable ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
@@ -65,7 +74,7 @@ const productSchema = {
         <p class="kicker mb-3">Wydruk fine art</p>
         <h1 class="display text-4xl md:text-5xl">{p.title}</h1>
         {p.species && <p class="latin mt-2 text-lg text-moss">{p.species}</p>}
-        <p class="tech mt-4 !text-[0.72rem]" class:list={[soldOut && '!text-bone']}>
+        <p class="tech mt-4 !text-[0.72rem]" class:list={[(soldOut || withdrawn) && '!text-bone']}>
           {editionLabel}
         </p>
 
@@ -90,7 +99,7 @@ const productSchema = {
                     </a>
                   ) : (
                     <span class="btn !px-4 !py-2.5" aria-disabled="true">
-                      {soldOut ? 'Wyprzedane' : 'Wkrótce'}
+                      {soldOut ? 'Wyprzedane' : withdrawn ? 'Niedostępny' : 'Wkrótce'}
                     </span>
                   )}
                 </span>

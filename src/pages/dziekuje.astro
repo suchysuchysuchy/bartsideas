@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Strona podziękowania po wysłaniu formularza bez JavaScriptu
+// (Web3Forms przekierowuje tutaj). Nie indeksujemy.
+---
+
+<BaseLayout
+  title="Wiadomość wysłana | Revelare"
+  description="Dziękuję za wiadomość — odpowiadam zwykle w 1–2 dni robocze."
+  noIndex
+>
+  <div class="flex min-h-[55dvh] flex-col items-center justify-center px-6 text-center">
+    <p class="kicker mb-4">Kontakt</p>
+    <h1 class="display text-4xl md:text-5xl">Dziękuję — wiadomość wysłana</h1>
+    <p class="mt-4 max-w-md text-sm text-moss">
+      Odpowiadam zwykle w 1–2 dni robocze. Jeśli sprawa jest pilna, napisz bezpośrednio
+      na e-mail podany w stopce.
+    </p>
+    <a href="/" class="btn mt-10">Wróć na stronę główną</a>
+  </div>
+</BaseLayout>

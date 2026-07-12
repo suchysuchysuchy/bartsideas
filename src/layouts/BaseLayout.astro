@@ -17,6 +17,8 @@ interface Props {
   lang?: string;
   /** false = treść zaczyna się pod samą górą (hero pełnoekranowe). */
   padTop?: boolean;
+  /** true = strona poza indeksem wyszukiwarek (stuby, podziękowania). */
+  noIndex?: boolean;
 }
 
 const {
@@ -26,6 +28,7 @@ const {
   schema,
   lang = 'pl',
   padTop = true,
+  noIndex = false,
 } = Astro.props;
 
 const og = await getImage({ src: ogImage, width: 1200, format: 'jpg' });
@@ -56,6 +59,7 @@ const schemas = [baseSchema, ...(schema ? (Array.isArray(schema) ? schema : [sch
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="generator" content={Astro.generator} />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE.name} />

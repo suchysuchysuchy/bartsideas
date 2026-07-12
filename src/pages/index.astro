@@ -57,13 +57,17 @@ const entries = [
   <!-- Hero: jeden kadr na pełen ekran, wyłaniający się z czerni. -->
   <section class="relative h-[100dvh]">
     <div class="reveal-hero absolute inset-0">
+      <!-- Na pionowym ekranie object-cover renderuje obraz szerzej niż 100vw
+           (proporcje kadru ~1,3 × wysokość widoku); niższa jakość trzyma
+           budżet LCP mimo doboru większego wariantu. -->
       <PhotoFrame
         image={hero.data.image}
         alt={hero.data.alt}
-        sizes="100vw"
+        sizes="(orientation: portrait) 130vh, 100vw"
         loading="eager"
         fetchpriority="high"
         reveal={false}
+        quality={55}
         aspect="auto"
         class="h-full w-full"
       />
@@ -94,7 +98,7 @@ const entries = [
       {
         entries.map((e) => (
           <a href={e.href} class="group relative block overflow-hidden">
-            <PhotoFrame image={e.image} alt={e.alt} aspect="4 / 5" sizes="(min-width: 768px) 33vw, 100vw" />
+            <PhotoFrame image={e.image} alt={e.alt} aspect="4 / 5" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" />
             <span class="absolute inset-0 flex flex-col items-center justify-end bg-gradient-to-t from-night/85 via-night/10 to-transparent pb-8">
               <span class="display text-3xl transition-transform duration-500 group-hover:-translate-y-1">
                 {e.title}

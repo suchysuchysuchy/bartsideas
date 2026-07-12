@@ -21,7 +21,7 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
       {SITE.name}
     </a>
 
-    <nav class="hidden md:block" aria-label="Nawigacja główna">
+    <nav class="desktop-nav hidden md:block" aria-label="Nawigacja główna">
       <ul class="flex items-center gap-8">
         {
           links.map((l) => (
@@ -118,4 +118,45 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !menu.hidden) setOpen(false);
   });
+
+  // Pułapka fokusu: Tab krąży wewnątrz otwartego menu, nie ucieka pod overlay.
+  menu.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab') return;
+    const focusables = menu.querySelectorAll<HTMLElement>('a[href], button');
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
 </script>
+
+<style>
+  /* Bez JavaScriptu hamburger nie działa — pokaż wtedy zwykłą listę
+     linków także na wąskich ekranach i schowaj martwy przycisk. */
+  :global(html.no-js) #nav-toggle {
+    display: none;
+  }
+
+  :global(html.no-js) .desktop-nav {
+    display: block;
+  }
+
+  :global(html.no-js) .desktop-nav ul {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.75rem 1.25rem;
+  }
+
+  :global(html.no-js) header > div {
+    height: auto;
+    min-height: 4rem;
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+    padding-block: 0.75rem;
+  }
+</style>

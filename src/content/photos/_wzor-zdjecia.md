@@ -1,7 +1,7 @@
 ---
 # ── WZORZEC WPISU ZDJĘCIA ─────────────────────────────────────────────
-# Skopiuj ten plik, zmień nazwę (np. moje-zdjecie.md — nazwa pliku = adres
-# w lightboxie, bez polskich znaków) i usuń podkreślnik z początku nazwy.
+# Skopiuj ten plik, zmień nazwę (np. moje-zdjecie.md — małe litery,
+# bez polskich znaków) i usuń podkreślnik z początku nazwy.
 # Pliki zaczynające się od "_" NIE trafiają na stronę.
 
 # Tytuł kadru — pokazywany pod zdjęciem i w lightboxie.

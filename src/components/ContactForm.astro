@@ -15,6 +15,10 @@ interface Props {
 }
 
 const { subject = '', id = 'form-kontakt' } = Astro.props;
+
+// Bez JS Web3Forms przekierowuje tutaj po wysłaniu (zamiast na swoją
+// angielską stronę podziękowania).
+const redirectUrl = new URL('/dziekuje', Astro.site);
 ---
 
 <form
@@ -26,6 +30,7 @@ const { subject = '', id = 'form-kontakt' } = Astro.props;
 >
   <input type="hidden" name="access_key" value={SITE.web3formsKey} />
   <input type="hidden" name="from_name" value={`${SITE.name} — formularz`} />
+  <input type="hidden" name="redirect" value={redirectUrl} />
   <!-- Honeypot antyspamowy — pole niewidoczne dla ludzi. -->
   <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" />
 
@@ -51,7 +56,9 @@ const { subject = '', id = 'form-kontakt' } = Astro.props;
 
   <button type="submit" class="btn btn-solid w-full sm:w-auto">Wyślij wiadomość</button>
 
-  <p data-form-status class="hidden text-sm" role="status" aria-live="polite"></p>
+  <!-- Region statusu jest w DOM od początku (pusty), żeby czytniki ekranu
+       ogłosiły już pierwszy komunikat. -->
+  <p data-form-status class="min-h-5 text-sm" role="status" aria-live="polite"></p>
 </form>
 
 <script>
@@ -71,12 +78,13 @@ const { subject = '', id = 'form-kontakt' } = Astro.props;
       const status = form.querySelector('[data-form-status]') as HTMLElement;
       const button = form.querySelector('button[type=submit]') as HTMLButtonElement;
       button.disabled = true;
-      status.classList.remove('hidden');
       status.textContent = 'Wysyłanie…';
       try {
+        const data = new FormData(form);
+        data.delete('redirect'); // przy wysyłce fetch zostajemy na stronie
         const res = await fetch(form.action, {
           method: 'POST',
-          body: new FormData(form),
+          body: data,
           headers: { Accept: 'application/json' },
         });
         if (!res.ok) throw new Error(String(res.status));

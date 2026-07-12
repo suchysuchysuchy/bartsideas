@@ -22,7 +22,7 @@
   --color-line-strong: #2b332d;
   --color-bone: #e7e4da;
   --color-moss: #8b9088;
-  --color-dim: #5f665f;
+  --color-dim: #7a827a; /* min. 4,5:1 na każdym z trzech teł (WCAG AA) */
 
   --font-display: 'Cormorant Garamond', 'Georgia', serif;
   --font-sans: 'Inter Variable', system-ui, sans-serif;

@@ -1,4 +1,5 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 
 /**
@@ -25,7 +26,7 @@ const photos = defineCollection({
 });
 
 const variant = z.object({
-  size: z.string(), // np. "A3 (30×42 cm)"
+  size: z.string(), // np. "A3 (29,7×42 cm)"
   paper: z.string(), // np. "Hahnemühle Photo Rag 308"
   price: z.number(), // cena w PLN
   stripeLink: z.string().url().or(z.literal('')).default(''), // Stripe Payment Link

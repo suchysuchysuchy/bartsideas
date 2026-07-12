@@ -1,12 +1,13 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { SITE } from '../../config';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config';
 ---
 
 <BaseLayout
   title="Revelare — Bartłomiej Suchanek · macro & astro photography"
   description="Revelare abscondita — to reveal the hidden. Macro photography of Jura invertebrates and astrophotography of rare TLE phenomena. English version coming soon."
   lang="en"
+  noIndex
 >
   <div class="flex min-h-[55dvh] flex-col items-center justify-center px-6 text-center">
     <h1 class="display text-5xl md:text-6xl">{SITE.name}</h1>

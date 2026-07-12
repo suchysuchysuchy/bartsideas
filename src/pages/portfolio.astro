@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PhotoCard from '../components/PhotoCard.astro';
 import Lightbox from '../components/Lightbox.astro';
@@ -37,20 +38,30 @@ const sections = [
 
 const firstImage = photos.find((p) => p.data.featured)?.data.image;
 
-// schema.org — każde zdjęcie jako ImageObject.
+// schema.org — każde zdjęcie jako ImageObject z adresem pliku (contentUrl).
 const imageSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  itemListElement: sections
-    .flatMap((s) => s.items)
-    .map((p, i) => ({
-      '@type': 'ImageObject',
-      position: i + 1,
-      name: p.data.title,
-      description: p.data.alt,
-      creator: { '@type': 'Person', name: SITE.owner },
-      copyrightNotice: `© ${SITE.owner}`,
-    })),
+  itemListElement: await Promise.all(
+    sections
+      .flatMap((s) => s.items)
+      .map(async (p, i) => {
+        const img = await getImage({
+          src: p.data.image,
+          width: Math.min(p.data.image.width, 2048),
+          format: 'webp',
+        });
+        return {
+          '@type': 'ImageObject',
+          position: i + 1,
+          name: p.data.title,
+          description: p.data.alt,
+          contentUrl: new URL(img.src, Astro.site).toString(),
+          creator: { '@type': 'Person', name: SITE.owner },
+          copyrightNotice: `© ${SITE.owner}`,
+        };
+      }),
+  ),
 };
 ---
 

@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://bartsideas.com/sitemap-index.xml
