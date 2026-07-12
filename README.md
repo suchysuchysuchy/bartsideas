@@ -128,7 +128,10 @@ Lemon Squeezy sam rozlicza VAT i dostarcza plik kupującemu.
 - `instagram`, `inaturalist`, `email` — Twoje linki w stopce i kontakcie,
 - `showPeopleSection: true` — włącza sekcję „Ludzie" w portfolio,
 - `seller` — dane do dokumentów prawnych (**uzupełnij adres!**),
-- teksty w `[NAWIASACH ✏️]` na stronach O mnie i Usługi — do podmiany.
+- teksty w `[NAWIASACH ✏️]` na stronach O mnie, Usługi i Szkolenia — do
+  podmiany (ceny pakietów i szkoleń edytujesz wprost w plikach
+  `src/pages/uslugi.astro` i `src/pages/szkolenia.astro` — to zwykłe
+  listy tekstowe na górze pliku).
 
 ⚠️ Strony `/regulamin`, `/polityka-prywatnosci` i `/odstapienie-od-umowy`
 to szkice oznaczone **[DO WERYFIKACJI PRAWNEJ]** — przed uruchomieniem

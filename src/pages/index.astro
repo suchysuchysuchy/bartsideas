@@ -7,6 +7,7 @@ import { SITE } from '../config';
 import imgPortfolio from '../assets/images/placeholders/makro-02.jpg';
 import imgWydruki from '../assets/images/ngc4565v1.jpg';
 import imgUslugi from '../assets/images/placeholders/b2b-01.jpg';
+import imgSzkolenia from '../assets/images/m52_v2.jpg';
 
 const photos = await getCollection('photos');
 const hero = photos.find((p) => p.data.hero) ?? photos[0];
@@ -32,10 +33,17 @@ const entries = [
   },
   {
     href: '/uslugi',
-    title: 'Usługi B2B',
-    sub: 'fotografia produktowa',
+    title: 'Usługi',
+    sub: 'produkt · lifestyle · wizerunek',
     image: imgUslugi,
-    alt: 'Wejście do usług — fotografia produktowa',
+    alt: 'Wejście do usług — fotografia produktowa i lifestyle',
+  },
+  {
+    href: '/szkolenia',
+    title: 'Szkolenia',
+    sub: 'nauczę Cię · 1:1',
+    image: imgSzkolenia,
+    alt: 'Wejście do szkoleń — nauka astrofotografii i makro',
   },
 ];
 ---
@@ -80,9 +88,9 @@ const entries = [
     </a>
   </section>
 
-  <!-- Trzy wejścia. -->
+  <!-- Cztery wejścia. -->
   <section id="wejscia" class="mx-auto max-w-6xl scroll-mt-24 px-5 py-20 md:px-8 md:py-28">
-    <div class="grid gap-6 md:grid-cols-3">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {
         entries.map((e) => (
           <a href={e.href} class="group relative block overflow-hidden">

@@ -1,0 +1,131 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+
+// ✏️ Uzupełnij ceny szkoleń — to zwykły tekst, żadnego kodu.
+const tracks = [
+  {
+    id: 'astro',
+    name: 'Astrofotografia od pierwszej nocy',
+    price: '[CENA ✏️] zł / spotkanie',
+    desc: 'Od rozstawienia sprzętu po gotowe zdjęcie głębokiego nieba. Uczę na tym, na czym sam fotografuję — ponad terabajt własnych danych z setek godzin pod niebem Jury.',
+    features: [
+      'planowanie celów i warunków (fazy Księżyca, pogoda)',
+      'akwizycja: smart-teleskop (np. Seestar) lub własny zestaw',
+      'stacking i obróbka surowych danych krok po kroku',
+      'spotkanie w terenie nocą + sesja obróbki (może być online)',
+    ],
+  },
+  {
+    id: 'makro',
+    name: 'Makro i focus stacking',
+    price: '[CENA ✏️] zł / spotkanie',
+    desc: 'Jak znaleźć, podejść i oświetlić bezkręgowca, żeby kadr wyglądał jak z atlasu — i jak złożyć ostrość z dziesiątek klatek w jeden plik.',
+    features: [
+      'szukanie i podchodzenie owadów w terenie (Jura)',
+      'kierunkowe światło i czarne tło w plenerze',
+      'focus stacking: od serii klatek po finalny plik',
+      'praca na Twoim aparacie — dobiorę technikę do sprzętu',
+    ],
+  },
+  {
+    id: 'timelapse',
+    name: 'Timelapse i startrails',
+    price: '[CENA ✏️] zł / spotkanie',
+    desc: 'Od kompozycji i interwałów po gotowy film — gwiezdne kręgi nad miastem albo kwitnący na oczach widza krokus.',
+    features: [
+      'planowanie ujęcia: kompozycja, interwał, czas trwania',
+      'startrails w mieście i pod ciemnym niebem',
+      'timelapsy przyrodnicze (rośliny, chmury, burze)',
+      'montaż i eksport gotowego filmu',
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Szkolenia z fotografii | Revelare"
+  description="Indywidualna nauka fotografii 1:1 — astrofotografia od pierwszej nocy, makro z focus stackingiem, timelapse i startrails. Częstochowa, Jura lub online."
+>
+  <div class="mx-auto max-w-6xl px-5 md:px-8">
+    <header class="max-w-2xl pb-14 md:pb-20">
+      <p class="kicker mb-3">Szkolenia</p>
+      <h1 class="display text-5xl md:text-6xl">Nauczę Cię</h1>
+      <p class="mt-5 text-moss">
+        Indywidualnie, w terenie albo online — bez sali wykładowej i slajdów. Spotykamy się
+        przy sprzęcie i wychodzisz z własnym materiałem oraz umiejętnością powtórzenia
+        wszystkiego samodzielnie.
+      </p>
+    </header>
+
+    <!-- Ścieżki szkoleń. -->
+    <section aria-labelledby="sciezki" class="pb-16">
+      <h2 id="sciezki" class="kicker mb-8">Ścieżki</h2>
+      <div class="grid gap-6 md:grid-cols-3">
+        {
+          tracks.map((t) => (
+            <article class="flex flex-col border border-line bg-night-raised p-7">
+              <h3 class="display text-2xl">{t.name}</h3>
+              <p class="tech mt-2 !text-[0.75rem] !text-bone">{t.price}</p>
+              <p class="mt-4 text-sm text-moss">{t.desc}</p>
+              <ul class="mt-5 flex-1 space-y-1.5 text-sm text-moss">
+                {t.features.map((f) => (
+                  <li class="border-t border-line pt-1.5">{f}</li>
+                ))}
+              </ul>
+              <button type="button" class="btn mt-7" data-track={t.name}>
+                Zapytaj o termin
+              </button>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Jak to wygląda. -->
+    <section aria-labelledby="format" class="max-w-2xl pb-16">
+      <h2 id="format" class="kicker mb-6">Jak to wygląda</h2>
+      <ul class="space-y-3 text-sm text-moss">
+        <li class="border-t border-line pt-3">
+          <strong class="font-medium text-bone">1:1 albo maks. 2 osoby</strong> — pełna uwaga,
+          tempo dopasowane do Ciebie.
+        </li>
+        <li class="border-t border-line pt-3">
+          <strong class="font-medium text-bone">Częstochowa i Jura</strong> — teren znam na
+          pamięć; część obróbkową możemy zrobić online.
+        </li>
+        <li class="border-t border-line pt-3">
+          <strong class="font-medium text-bone">Twój sprzęt mile widziany</strong> — uczysz się
+          na tym, czym będziesz fotografować. A jeśli dopiero planujesz zakup, doradzę,
+          na co wydać (i na co nie wydawać) pieniędzy.
+        </li>
+        <li class="border-t border-line pt-3">
+          <strong class="font-medium text-bone">Terminy zależne od nieba</strong> — astro
+          i startrails planujemy z wyprzedzeniem pod pogodę i fazę Księżyca; makro jest
+          bardziej elastyczne.
+        </li>
+      </ul>
+    </section>
+
+    <!-- Formularz zapytania. -->
+    <section id="zapytanie" aria-labelledby="zapytanie-title" class="max-w-2xl scroll-mt-28">
+      <h2 id="zapytanie-title" class="display mb-3 text-3xl">Zapytaj o termin</h2>
+      <p class="mb-8 text-sm text-moss">
+        Napisz, czego chcesz się nauczyć, jakim sprzętem dysponujesz i kiedy masz czas —
+        zaproponuję plan i termin.
+      </p>
+      <ContactForm subject="Szkolenie — zapytanie o termin" id="form-szkolenia" />
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  // Klik „Zapytaj o termin” przy ścieżce: wypełnij temat i przewiń do formularza.
+  const subjectInput = document.querySelector<HTMLInputElement>('#form-szkolenia [data-subject]');
+  document.querySelectorAll<HTMLButtonElement>('[data-track]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (subjectInput) subjectInput.value = `Szkolenie — ${btn.dataset.track}`;
+      document.getElementById('zapytanie')?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>

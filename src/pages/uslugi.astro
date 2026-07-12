@@ -29,6 +29,32 @@ const packages = [
   },
 ];
 
+// ✏️ Uzupełnij ceny sesji — to zwykły tekst, żadnego kodu.
+const sessions = [
+  {
+    name: 'Lifestyle produktowy',
+    price: '[CENA ✏️] zł / sesja',
+    desc: 'Produkt w użyciu — w rękach, w ruchu, w prawdziwej scenie. Pakiet spójnych kadrów, którymi zapełnisz Instagram i stronę na tygodnie.',
+    features: [
+      'sesja w Twoim wnętrzu lub w plenerze (Jura)',
+      'pakiet kadrów pod social media i www',
+      'kadry poziome i pionowe (stories, reels)',
+      'spójna kolorystyka z Twoją marką',
+    ],
+  },
+  {
+    name: 'Sesja wizerunkowa',
+    price: '[CENA ✏️] zł / sesja',
+    desc: 'Portret w naturalnym, kierunkowym świetle — dla marek osobistych, rzemieślników i zespołów. Na stronę, do prasy, na LinkedIn.',
+    features: [
+      'portrety przy pracy i klasyczne',
+      'naturalne światło, ciemne spójne tła',
+      'wybór ujęć wspólnie z Tobą',
+      'pliki web + druk',
+    ],
+  },
+];
+
 const gallery = [
   { image: b2b1, alt: 'Przykładowa fotografia produktowa — placeholder' },
   { image: b2b2, alt: 'Przykładowa fotografia produktowa w aranżacji — placeholder' },
@@ -37,22 +63,22 @@ const gallery = [
 ---
 
 <BaseLayout
-  title="Fotografia produktowa B2B | Revelare"
-  description="Fotografia produktowa dla firm z Częstochowy i okolic — packshoty, aranżacje i sesje autorskie z makrodetalem. Wycena per SKU."
+  title="Usługi — fotografia produktowa, lifestyle i wizerunkowa | Revelare"
+  description="Fotografia dla firm i marek osobistych z Częstochowy i okolic — packshoty, aranżacje, sesje lifestyle i wizerunkowe. Wycena per SKU lub za sesję."
 >
   <div class="mx-auto max-w-6xl px-5 md:px-8">
     <header class="max-w-2xl pb-14 md:pb-20">
-      <p class="kicker mb-3">Usługi B2B</p>
-      <h1 class="display text-5xl md:text-6xl">Fotografia produktowa</h1>
+      <p class="kicker mb-3">Usługi</p>
+      <h1 class="display text-5xl md:text-6xl">Fotografia na zamówienie</h1>
       <p class="mt-5 text-moss">
         Warsztat z makrofotografii — precyzyjne światło, ostrość i detal — w służbie Twojego
-        produktu. Pracuję stacjonarnie w Częstochowie i okolicach.
+        produktu i marki. Pracuję stacjonarnie w Częstochowie i okolicach.
       </p>
     </header>
 
-    <!-- Pakiety. -->
+    <!-- Pakiety produktowe. -->
     <section aria-labelledby="pakiety" class="pb-20">
-      <h2 id="pakiety" class="kicker mb-8">Pakiety</h2>
+      <h2 id="pakiety" class="kicker mb-8">Fotografia produktowa</h2>
       <div class="grid gap-6 md:grid-cols-3">
         {
           packages.map((pkg) => (
@@ -70,6 +96,32 @@ const gallery = [
           ))
         }
       </div>
+    </section>
+
+    <!-- Sesje lifestyle i wizerunkowe. -->
+    <section aria-labelledby="sesje" class="pb-20">
+      <h2 id="sesje" class="kicker mb-8">Sesje lifestyle i wizerunek</h2>
+      <div class="grid gap-6 md:grid-cols-2">
+        {
+          sessions.map((s) => (
+            <article class="flex flex-col border border-line bg-night-raised p-7">
+              <h3 class="display text-2xl">{s.name}</h3>
+              <p class="tech mt-2 !text-[0.75rem] !text-bone">{s.price}</p>
+              <p class="mt-4 text-sm text-moss">{s.desc}</p>
+              <ul class="mt-5 flex-1 space-y-1.5 text-sm text-moss">
+                {s.features.map((f) => (
+                  <li class="border-t border-line pt-1.5">{f}</li>
+                ))}
+              </ul>
+              <a href="#zapytanie" class="btn mt-7">Zapytaj o wycenę</a>
+            </article>
+          ))
+        }
+      </div>
+      <p class="mt-6 text-sm text-moss">
+        Chcesz nauczyć się robić takie zdjęcia samodzielnie?
+        <a href="/szkolenia" class="link-quiet">Zobacz szkolenia →</a>
+      </p>
     </section>
 
     <!-- Mini-galeria komercyjna. -->
