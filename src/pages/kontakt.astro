@@ -1,7 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
-import { SITE } from '../config';
+import { SITE, isRealLink } from '../config';
+
+const socials = [
+  { href: SITE.instagram, label: 'Instagram' },
+  { href: SITE.inaturalist, label: 'iNaturalist' },
+].filter((s) => isRealLink(s.href));
 ---
 
 <BaseLayout
@@ -26,13 +31,22 @@ import { SITE } from '../config';
           <h2 class="kicker mb-2">E-mail</h2>
           <a href={`mailto:${SITE.email}`} class="link-quiet text-lg">{SITE.email}</a>
         </div>
-        <div>
-          <h2 class="kicker mb-2">W sieci</h2>
-          <ul class="space-y-1 text-sm">
-            <li><a class="link-quiet" href={SITE.instagram} rel="me noopener" target="_blank">Instagram</a></li>
-            <li><a class="link-quiet" href={SITE.inaturalist} rel="me noopener" target="_blank">iNaturalist</a></li>
-          </ul>
-        </div>
+        {
+          socials.length > 0 && (
+            <div>
+              <h2 class="kicker mb-2">W sieci</h2>
+              <ul class="space-y-1 text-sm">
+                {socials.map((s) => (
+                  <li>
+                    <a class="link-quiet" href={s.href} rel="me noopener" target="_blank">
+                      {s.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
         <div>
           <h2 class="kicker mb-2">Pracownia</h2>
           <p class="text-sm text-moss">{SITE.location}</p>

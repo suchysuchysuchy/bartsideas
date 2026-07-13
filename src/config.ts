@@ -12,9 +12,10 @@ export const SITE = {
   // ✏️ Adres e-mail kontaktowy (widoczny na stronie).
   email: 'bartsideas@gmail.com',
 
-  // ✏️ Linki społecznościowe — podmień na własne profile.
-  instagram: 'https://www.instagram.com/twoj-profil',
-  inaturalist: 'https://www.inaturalist.org/people/twoj-profil',
+  // Linki społecznościowe. Linki zawierające "twoj-profil" są traktowane
+  // jako placeholder i NIE pokazują się na stronie.
+  instagram: 'https://www.instagram.com/bartsideas/',
+  inaturalist: 'https://www.inaturalist.org/people/bartsuchy',
 
   // Czy sekcja „Ludzie” ma być widoczna w portfolio? (true / false)
   showPeopleSection: false,
@@ -37,3 +38,9 @@ export const SITE = {
   // Informacja o realizacji wydruków, pokazywana przy produktach.
   fulfillment: 'Czas realizacji: 5–10 dni roboczych. Wysyłka na terenie Polski.',
 } as const;
+
+/** Czy link społecznościowy jest prawdziwy (nie placeholder)? */
+export const isRealLink = (url: string) => !url.includes('twoj-profil');
+
+/** Czy klucz Web3Forms jest skonfigurowany? */
+export const hasWeb3formsKey = !SITE.web3formsKey.startsWith('TU-WKLEJ') && SITE.web3formsKey.length > 0;

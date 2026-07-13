@@ -40,6 +40,7 @@ const prints = defineCollection({
       species: z.string().optional(),
       image: image(),
       alt: z.string(),
+      published: z.boolean().default(false), // true = produkt widoczny w sklepie; false = szkic
       edition: z.number().nullable().default(null), // liczba = edycja limitowana, null = open edition
       sold: z.number().default(0), // sprzedane sztuki edycji (aktualizujesz ręcznie)
       available: z.boolean().default(true), // false = zdejmij ze sprzedaży
@@ -56,6 +57,7 @@ const digitals = defineCollection({
       species: z.string().optional(),
       image: image(),
       alt: z.string(),
+      published: z.boolean().default(false), // true = produkt widoczny w sklepie; false = szkic
       price: z.number(), // cena w PLN
       resolution: z.string().optional(), // np. "6000×4000 px"
       format: z.string().default('JPG'),

@@ -5,7 +5,7 @@ import PhotoFrame from '../components/PhotoFrame.astro';
 import { SITE } from '../config';
 
 const prints = (await getCollection('prints'))
-  .filter((p) => p.data.available)
+  .filter((p) => p.data.published && p.data.available)
   .sort((a, b) => a.data.order - b.data.order);
 
 const editionLabel = (edition: number | null, sold: number) => {
@@ -32,6 +32,23 @@ const minPrice = (variants: { price: number }[]) => Math.min(...variants.map((v)
       </p>
       <p class="tech mt-4 !text-[0.7rem]">{SITE.fulfillment}</p>
     </header>
+
+    {
+      prints.length === 0 && (
+        <div class="max-w-2xl border border-line bg-night-raised px-8 py-16 text-center md:py-20">
+          <p class="latin text-lg text-moss">nondum revelata</p>
+          <h2 class="display mt-3 text-3xl md:text-4xl">Sklep w przygotowaniu</h2>
+          <p class="mx-auto mt-4 max-w-md text-sm text-moss">
+            Pierwsze wydruki fine art pojawią się tu wkrótce. Do tego czasu zapraszam do
+            portfolio — a jeśli któryś kadr ma trafić na Twoją ścianę już teraz, napisz.
+          </p>
+          <div class="mt-8 flex flex-wrap justify-center gap-4">
+            <a href="/portfolio" class="btn">Zobacz portfolio</a>
+            <a href="/kontakt?temat=Wydruk%20—%20zapytanie" class="btn">Zapytaj o wydruk</a>
+          </div>
+        </div>
+      )
+    }
 
     <div class="grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
       {

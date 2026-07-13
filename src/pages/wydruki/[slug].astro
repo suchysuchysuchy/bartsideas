@@ -6,7 +6,8 @@ import PhotoFrame from '../../components/PhotoFrame.astro';
 import { SITE } from '../../config';
 
 export async function getStaticPaths() {
-  const prints = await getCollection('prints');
+  // Szkice (published: false) nie dostają publicznych stron.
+  const prints = (await getCollection('prints')).filter((p) => p.data.published);
   return prints.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
 

@@ -33,7 +33,12 @@ const {
 
 const og = await getImage({ src: ogImage, width: 1200, format: 'jpg' });
 const ogUrl = new URL(og.src, Astro.site);
-const canonical = new URL(Astro.url.pathname, Astro.site);
+
+// Przy build.format 'file' pathname kończy się na ".html" — canonical
+// ma wskazywać czysty adres (/, /wydruki, /wydruki/slug).
+const cleanPath =
+  Astro.url.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '') || '/';
+const canonical = new URL(cleanPath, Astro.site);
 
 const baseSchema = {
   '@context': 'https://schema.org',

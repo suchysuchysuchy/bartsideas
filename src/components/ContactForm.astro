@@ -5,7 +5,7 @@
  * na e-mail podany przy generowaniu klucza; bez JS działa zwykły POST).
  * Temat może być wypełniony automatycznie z adresu ?temat=…
  */
-import { SITE } from '../config';
+import { SITE, hasWeb3formsKey } from '../config';
 
 interface Props {
   /** Domyślny temat wiadomości. */
@@ -19,8 +19,29 @@ const { subject = '', id = 'form-kontakt' } = Astro.props;
 // Bez JS Web3Forms przekierowuje tutaj po wysłaniu (zamiast na swoją
 // angielską stronę podziękowania).
 const redirectUrl = new URL('/dziekuje', Astro.site);
+
+const mailto = `mailto:${SITE.email}${subject ? `?subject=${encodeURIComponent(subject)}` : ''}`;
 ---
 
+{
+  /* Bez skonfigurowanego klucza Web3Forms formularz by nie wysyłał —
+     zamiast atrapy pokazujemy uczciwą informację i działający e-mail. */
+  !hasWeb3formsKey && (
+    <div class="max-w-xl border border-line bg-night-raised p-7">
+      <p class="kicker mb-3">Formularz w przygotowaniu</p>
+      <p class="text-sm text-moss">
+        Formularz kontaktowy będzie dostępny wkrótce. Tymczasem napisz do mnie
+        bezpośrednio — odpowiadam zwykle w 1–2 dni robocze.
+      </p>
+      <a href={mailto} data-mailto class="btn btn-solid mt-6">
+        Napisz e-mail{subject ? ' (temat wypełni się sam)' : ''}
+      </a>
+      <p class="tech mt-4 !text-[0.7rem]">{SITE.email}</p>
+    </div>
+  )
+}
+
+{hasWeb3formsKey && (
 <form
   id={id}
   action="https://api.web3forms.com/submit"
@@ -60,6 +81,7 @@ const redirectUrl = new URL('/dziekuje', Astro.site);
        ogłosiły już pierwszy komunikat. -->
   <p data-form-status class="min-h-5 text-sm" role="status" aria-live="polite"></p>
 </form>
+)}
 
 <script>
   // Wypełnij temat z adresu (?temat=…) — używane przez „Zapytaj o licencję”.
@@ -69,6 +91,12 @@ const redirectUrl = new URL('/dziekuje', Astro.site);
     document
       .querySelectorAll<HTMLInputElement>('[data-subject]')
       .forEach((el) => (el.value = temat));
+    // Fallback mailto (gdy formularz jest w przygotowaniu) też dostaje temat.
+    document.querySelectorAll<HTMLAnchorElement>('[data-mailto]').forEach((el) => {
+      const url = new URL(el.href);
+      url.search = `?subject=${encodeURIComponent(temat)}`;
+      el.href = url.toString();
+    });
   }
 
   // Wysyłka bez przeładowania strony; bez JS formularz działa zwykłym POST.

@@ -14,10 +14,18 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      // Stub angielski nie trafia do sitemapy, dopóki nie ma treści EN.
+      // Poza sitemapą: stub angielski (brak treści EN), strona podziękowania
+      // oraz dokumenty prawne, dopóki są szkicami [DO WERYFIKACJI PRAWNEJ].
       filter: (page) => {
         const path = new URL(page).pathname;
-        return path !== '/en' && !path.startsWith('/en/') && path !== '/dziekuje';
+        const excluded = [
+          '/en',
+          '/dziekuje',
+          '/regulamin',
+          '/polityka-prywatnosci',
+          '/odstapienie-od-umowy',
+        ];
+        return !excluded.some((e) => path === e || path === `${e}/` || path.startsWith(`${e}/`));
       },
     }),
   ],

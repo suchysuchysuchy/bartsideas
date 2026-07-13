@@ -1,0 +1,6 @@
+# Nagłówki bezpieczeństwa dla całej strony (Cloudflare Workers static assets).
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=()

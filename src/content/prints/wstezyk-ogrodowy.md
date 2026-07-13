@@ -4,6 +4,8 @@ title: "Wstężyk ogrodowy"
 species: "Cepaea hortensis"
 image: "../../assets/images/placeholders/makro-01.jpg"
 alt: "Ślimak wstężyk ogrodowy w kierunkowym świetle na czarnym tle"
+# Szkic z przykładowymi danymi — ustaw true, gdy produkt ma trafić do sklepu.
+published: false
 edition: null
 sold: 0
 available: true

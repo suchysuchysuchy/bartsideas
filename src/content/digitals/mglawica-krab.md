@@ -4,6 +4,8 @@ title: "Mgławica Krab"
 species: "M 1"
 image: "../../assets/images/M1_v1.jpg"
 alt: "Mgławica Krab — włóknista pozostałość po supernowej na ciemnym niebie"
+# Szkic z przykładowymi danymi — ustaw true, gdy produkt ma trafić do sklepu.
+published: false
 price: 49
 resolution: "4000×6000 px"
 format: "JPG"
