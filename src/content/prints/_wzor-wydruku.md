@@ -13,6 +13,10 @@ species: "Cepaea hortensis"
 image: "../../assets/images/placeholders/makro-01.jpg"
 alt: "Opis obrazu"
 
+# NAJWAŻNIEJSZE POLE: false = szkic (produkt NIE istnieje publicznie),
+# true = produkt widoczny w sklepie. Ustaw true dopiero, gdy wszystko gotowe.
+published: false
+
 # Edycja limitowana: liczba sztuk (np. 25) albo null = edycja otwarta.
 edition: 25
 

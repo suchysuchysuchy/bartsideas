@@ -3,6 +3,8 @@ title: "Galaktyka Igła"
 species: "NGC 4565"
 image: "../../assets/images/ngc4565v1.jpg"
 alt: "Galaktyka spiralna NGC 4565 widziana z boku, cienka jak ostrze igły"
+# Szkic z przykładowymi danymi — ustaw true, gdy produkt ma trafić do sklepu.
+published: false
 edition: 25
 sold: 7
 available: true

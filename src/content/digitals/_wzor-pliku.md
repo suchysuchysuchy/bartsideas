@@ -12,6 +12,10 @@ species: "Araneus diadematus"
 image: "../../assets/images/placeholders/makro-02.jpg"
 alt: "Opis obrazu"
 
+# NAJWAŻNIEJSZE POLE: false = szkic (produkt NIE jest widoczny),
+# true = produkt widoczny w sklepie. Ustaw true dopiero, gdy wszystko gotowe.
+published: false
+
 # Cena w PLN.
 price: 49
 

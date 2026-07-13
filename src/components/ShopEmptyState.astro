@@ -1,0 +1,25 @@
+---
+/**
+ * Pusty stan sklepu — pokazywany, gdy żaden produkt nie ma published: true.
+ */
+interface Props {
+  /** Zdanie opisujące, co pojawi się wkrótce. */
+  description: string;
+  /** Link przycisku zapytania (np. /kontakt?temat=…). */
+  ctaHref: string;
+  /** Etykieta przycisku zapytania. */
+  ctaLabel: string;
+}
+
+const { description, ctaHref, ctaLabel } = Astro.props;
+---
+
+<div class="max-w-2xl border border-line bg-night-raised px-8 py-16 text-center md:py-20">
+  <p class="latin text-lg text-moss">nondum revelata</p>
+  <h2 class="display mt-3 text-3xl md:text-4xl">Sklep w przygotowaniu</h2>
+  <p class="mx-auto mt-4 max-w-md text-sm text-moss">{description}</p>
+  <div class="mt-8 flex flex-wrap justify-center gap-4">
+    <a href="/portfolio" class="btn">Zobacz portfolio</a>
+    <a href={ctaHref} class="btn">{ctaLabel}</a>
+  </div>
+</div>

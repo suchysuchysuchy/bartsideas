@@ -2,10 +2,11 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PhotoFrame from '../components/PhotoFrame.astro';
+import ShopEmptyState from '../components/ShopEmptyState.astro';
 import { SITE } from '../config';
 
 const prints = (await getCollection('prints'))
-  .filter((p) => p.data.available)
+  .filter((p) => p.data.published && p.data.available)
   .sort((a, b) => a.data.order - b.data.order);
 
 const editionLabel = (edition: number | null, sold: number) => {
@@ -32,6 +33,16 @@ const minPrice = (variants: { price: number }[]) => Math.min(...variants.map((v)
       </p>
       <p class="tech mt-4 !text-[0.7rem]">{SITE.fulfillment}</p>
     </header>
+
+    {
+      prints.length === 0 && (
+        <ShopEmptyState
+          description="Pierwsze wydruki fine art pojawią się tu wkrótce. Do tego czasu zapraszam do portfolio — a jeśli któryś kadr ma trafić na Twoją ścianę już teraz, napisz."
+          ctaHref="/kontakt?temat=Wydruk%20—%20zapytanie"
+          ctaLabel="Zapytaj o wydruk"
+        />
+      )
+    }
 
     <div class="grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
       {

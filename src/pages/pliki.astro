@@ -2,9 +2,10 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PhotoFrame from '../components/PhotoFrame.astro';
+import ShopEmptyState from '../components/ShopEmptyState.astro';
 
 const digitals = (await getCollection('digitals'))
-  .filter((d) => d.data.available)
+  .filter((d) => d.data.published && d.data.available)
   .sort((a, b) => a.data.order - b.data.order);
 
 const rendered = await Promise.all(
@@ -27,7 +28,8 @@ const rendered = await Promise.all(
       </p>
     </header>
 
-    <!-- Skrót licencji personal use. -->
+    <!-- Skrót licencji personal use (renderowany, gdy są produkty). -->
+    {digitals.length > 0 && (
     <aside class="mb-14 max-w-2xl border border-line bg-night-raised p-6" aria-label="Skrót licencji">
       <h2 class="kicker mb-3">Licencja — użytek osobisty</h2>
       <ul class="space-y-1.5 text-sm text-moss">
@@ -38,6 +40,17 @@ const rendered = await Promise.all(
       </ul>
       <a href="/licencja" class="link-quiet mt-4 inline-block text-sm">Pełna treść licencji →</a>
     </aside>
+    )}
+
+    {
+      digitals.length === 0 && (
+        <ShopEmptyState
+          description="Pierwsze pliki cyfrowe pojawią się tu wkrótce. Do tego czasu zapraszam do portfolio — a jeśli któryś kadr jest Ci potrzebny już teraz, napisz."
+          ctaHref="/kontakt?temat=Plik%20cyfrowy%20—%20zapytanie"
+          ctaLabel="Zapytaj o plik"
+        />
+      )
+    }
 
     <div class="grid gap-x-6 gap-y-14 sm:grid-cols-2">
       {

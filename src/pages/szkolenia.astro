@@ -120,11 +120,18 @@ const tracks = [
 </BaseLayout>
 
 <script>
-  // Klik „Zapytaj o termin” przy ścieżce: wypełnij temat i przewiń do formularza.
+  // Klik „Zapytaj o termin” przy ścieżce: wypełnij temat (w formularzu
+  // albo — gdy formularz jest w przygotowaniu — w linku mailto)
+  // i przewiń do sekcji zapytania.
   const subjectInput = document.querySelector<HTMLInputElement>('#form-szkolenia [data-subject]');
+  const mailtoLink = document.querySelector<HTMLAnchorElement>('#zapytanie [data-mailto]');
   document.querySelectorAll<HTMLButtonElement>('[data-track]').forEach((btn) => {
     btn.addEventListener('click', () => {
-      if (subjectInput) subjectInput.value = `Szkolenie — ${btn.dataset.track}`;
+      const temat = `Szkolenie — ${btn.dataset.track}`;
+      if (subjectInput) subjectInput.value = temat;
+      if (mailtoLink) {
+        mailtoLink.href = `${mailtoLink.href.split('?')[0]}?subject=${encodeURIComponent(temat)}`;
+      }
       document.getElementById('zapytanie')?.scrollIntoView({ behavior: 'smooth' });
     });
   });

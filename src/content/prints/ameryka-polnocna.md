@@ -5,6 +5,8 @@ title: "Mgławica Ameryka Północna"
 species: "NGC 7000"
 image: "../../assets/images/NGC7000v11-2.jpg"
 alt: "Czerwona mgławica emisyjna Ameryka Północna na tle gęstego pola gwiazd"
+# Szkic z przykładowymi danymi — ustaw true, gdy produkt ma trafić do sklepu.
+published: false
 edition: 10
 sold: 10
 available: true

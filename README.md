@@ -50,6 +50,10 @@ ekran na górze strony głównej.
 - **Nowy wydruk:** skopiuj `src/content/prints/_wzor-wydruku.md`,
   usuń `_`, uzupełnij pola. Adres strony produktu = nazwa pliku
   (`wstezyk.md` → `bartsideas.com/wydruki/wstezyk`).
+- **Publikacja:** produkt jest widoczny w sklepie dopiero, gdy ustawisz
+  `published: true`. Dopóki wszystkie produkty są szkicami
+  (`published: false`), strony /wydruki i /pliki pokazują eleganckie
+  „Sklep w przygotowaniu" — możesz spokojnie dopieszczać szkice.
 - **Zmiana ceny:** zmień liczbę w polu `price` przy wariancie. Uwaga:
   cenę trzeba też zmienić w Stripe (patrz niżej) — na stronie jest tylko
   informacyjnie, płatność pobiera kwotę z linku Stripe.
