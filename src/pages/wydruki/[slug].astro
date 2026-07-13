@@ -1,0 +1,132 @@
+---
+import { getCollection, render } from 'astro:content';
+import { getImage } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PhotoFrame from '../../components/PhotoFrame.astro';
+import { SITE } from '../../config';
+
+export async function getStaticPaths() {
+  const prints = await getCollection('prints');
+  return prints.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const p = entry.data;
+
+const soldOut = p.edition !== null && p.sold >= p.edition;
+const withdrawn = !p.available;
+const buyable = !withdrawn && !soldOut;
+
+const editionLabel = withdrawn
+  ? 'Wycofany ze sprzedaży'
+  : p.edition === null
+    ? 'Edycja otwarta'
+    : soldOut
+      ? `Edycja limitowana ${p.edition} · wyprzedane`
+      : `Edycja limitowana ${p.edition} · dostępne ${p.edition - p.sold} z ${p.edition}`;
+
+const licenseSubject = `Licencja komercyjna — ${p.title}`;
+
+const schemaImage = await getImage({ src: p.image, width: 1200, format: 'jpg' });
+const productUrl = new URL(`/wydruki/${entry.id}`, Astro.site).toString();
+
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: `${p.title} — wydruk fine art`,
+  description: p.alt,
+  image: new URL(schemaImage.src, Astro.site).toString(),
+  url: productUrl,
+  brand: { '@type': 'Brand', name: SITE.name },
+  offers: p.variants.map((v) => ({
+    '@type': 'Offer',
+    name: `${v.size}, ${v.paper}`,
+    url: productUrl,
+    price: v.price,
+    priceCurrency: 'PLN',
+    availability: buyable ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+  })),
+};
+---
+
+<BaseLayout
+  title={`${p.title} — wydruk fine art | Revelare`}
+  description={`Wydruk fine art: ${p.title}. ${editionLabel}. Papier ${p.variants[0].paper}.`}
+  ogImage={p.image}
+  schema={productSchema}
+>
+  <div class="mx-auto max-w-6xl px-5 md:px-8">
+    <nav class="mb-8" aria-label="Okruszki">
+      <a href="/wydruki" class="link-quiet text-sm">← Wszystkie wydruki</a>
+    </nav>
+
+    <div class="grid gap-10 lg:grid-cols-2 lg:gap-16">
+      <PhotoFrame
+        image={p.image}
+        alt={p.alt}
+        sizes="(min-width: 1024px) 50vw, 100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+
+      <div>
+        <p class="kicker mb-3">Wydruk fine art</p>
+        <h1 class="display text-4xl md:text-5xl">{p.title}</h1>
+        {p.species && <p class="latin mt-2 text-lg text-moss">{p.species}</p>}
+        <p class="tech mt-4 !text-[0.72rem]" class:list={[(soldOut || withdrawn) && '!text-bone']}>
+          {editionLabel}
+        </p>
+
+        <div class="prose-revelare mt-8 text-sm leading-relaxed">
+          <Content />
+        </div>
+
+        <h2 class="kicker mb-1 mt-10">Warianty</h2>
+        <ul>
+          {
+            p.variants.map((v) => (
+              <li class="flex flex-wrap items-center justify-between gap-3 border-b border-line py-4">
+                <span>
+                  <span class="block text-sm text-bone">{v.size}</span>
+                  <span class="tech mt-0.5 block !text-[0.68rem]">{v.paper}</span>
+                </span>
+                <span class="flex items-center gap-4">
+                  <span class="tech !text-[0.8rem] !text-bone">{v.price} zł</span>
+                  {buyable && v.stripeLink ? (
+                    <a href={v.stripeLink} class="btn btn-solid !px-4 !py-2.5" rel="noopener">
+                      Kup wydruk
+                    </a>
+                  ) : (
+                    <span class="btn !px-4 !py-2.5" aria-disabled="true">
+                      {soldOut ? 'Wyprzedane' : withdrawn ? 'Niedostępny' : 'Wkrótce'}
+                    </span>
+                  )}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+
+        <div class="mt-8 space-y-2 text-sm text-moss">
+          <p>{SITE.fulfillment}</p>
+          <p>Płatność kartą, BLIK-iem lub przez Przelewy24 — bezpiecznie przez Stripe.</p>
+          <p>
+            Szczegóły zakupu i zwrotów: <a href="/regulamin" class="link-quiet">regulamin</a> ·
+            <a href="/odstapienie-od-umowy" class="link-quiet">odstąpienie od umowy</a>
+          </p>
+        </div>
+
+        <div class="mt-10 border-t border-line pt-6">
+          <p class="text-sm text-moss">Potrzebujesz tego kadru do użytku komercyjnego?</p>
+          <a
+            href={`/kontakt?temat=${encodeURIComponent(licenseSubject)}`}
+            class="link-quiet text-sm"
+          >
+            Zapytaj o licencję →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

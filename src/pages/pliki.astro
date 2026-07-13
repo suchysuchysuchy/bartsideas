@@ -1,0 +1,88 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhotoFrame from '../components/PhotoFrame.astro';
+
+const digitals = (await getCollection('digitals'))
+  .filter((d) => d.data.available)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const rendered = await Promise.all(
+  digitals.map(async (d) => ({ entry: d, Content: (await render(d)).Content })),
+);
+---
+
+<BaseLayout
+  title="Pliki cyfrowe | Revelare"
+  description="Zdjęcia w pełnej rozdzielczości do użytku osobistego — wydruk domowy, tapeta, ramka cyfrowa. Automatyczna dostawa pliku po zakupie."
+  ogImage={digitals[0]?.data.image}
+>
+  <div class="mx-auto max-w-6xl px-5 md:px-8">
+    <header class="max-w-2xl pb-10">
+      <p class="kicker mb-3">Sklep</p>
+      <h1 class="display text-5xl md:text-6xl">Pliki cyfrowe</h1>
+      <p class="mt-5 text-moss">
+        Pełna rozdzielczość, bez znaku wodnego, dostawa automatyczna zaraz po zakupie.
+        Płatność i VAT obsługuje Lemon Squeezy.
+      </p>
+    </header>
+
+    <!-- Skrót licencji personal use. -->
+    <aside class="mb-14 max-w-2xl border border-line bg-night-raised p-6" aria-label="Skrót licencji">
+      <h2 class="kicker mb-3">Licencja — użytek osobisty</h2>
+      <ul class="space-y-1.5 text-sm text-moss">
+        <li>✓ wydruk na własne potrzeby (dom, prezent)</li>
+        <li>✓ tapeta, ramka cyfrowa, prywatne media społecznościowe z podpisem autora</li>
+        <li>✗ odsprzedaż, sublicencjonowanie i udostępnianie pliku</li>
+        <li>✗ jakiekolwiek użycie komercyjne (reklama, produkty, publikacje)</li>
+      </ul>
+      <a href="/licencja" class="link-quiet mt-4 inline-block text-sm">Pełna treść licencji →</a>
+    </aside>
+
+    <div class="grid gap-x-6 gap-y-14 sm:grid-cols-2">
+      {
+        rendered.map(({ entry, Content }) => {
+          const d = entry.data;
+          return (
+            <article class="flex flex-col">
+              <PhotoFrame
+                image={d.image}
+                alt={d.alt}
+                sizes="(min-width: 640px) 50vw, 100vw"
+              />
+              <div class="mt-4 flex-1">
+                <h2 class="text-lg text-bone">{d.title}</h2>
+                {d.species && <p class="latin text-sm text-moss">{d.species}</p>}
+                <p class="tech mt-2 !text-[0.7rem]">
+                  {[d.format, d.resolution].filter(Boolean).join(' · ')} · licencja personal use
+                </p>
+                <div class="prose-revelare mt-3 text-sm">
+                  <Content />
+                </div>
+              </div>
+              <div class="mt-4 flex items-center justify-between border-t border-line pt-4">
+                <span class="tech !text-[0.85rem] !text-bone">{d.price} zł</span>
+                {d.lemonSqueezyUrl ? (
+                  <a href={d.lemonSqueezyUrl} class="btn btn-solid !px-4 !py-2.5" rel="noopener">
+                    Kup plik
+                  </a>
+                ) : (
+                  <span class="btn !px-4 !py-2.5" aria-disabled="true">
+                    Wkrótce
+                  </span>
+                )}
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+
+    <div class="mt-16 border-t border-line pt-8">
+      <p class="text-sm text-moss">
+        Potrzebujesz licencji komercyjnej (reklama, publikacja, produkt)?
+        <a href="/kontakt?temat=Licencja%20komercyjna" class="link-quiet">Zapytaj o licencję →</a>
+      </p>
+    </div>
+  </div>
+</BaseLayout>

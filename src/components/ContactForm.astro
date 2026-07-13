@@ -1,0 +1,100 @@
+---
+/**
+ * Formularz przez Web3Forms — bezobsługowe rozwiązanie dla strony
+ * statycznej (darmowy limit 250 zgłoszeń/mies., wiadomości przychodzą
+ * na e-mail podany przy generowaniu klucza; bez JS działa zwykły POST).
+ * Temat może być wypełniony automatycznie z adresu ?temat=…
+ */
+import { SITE } from '../config';
+
+interface Props {
+  /** Domyślny temat wiadomości. */
+  subject?: string;
+  /** Identyfikator formularza (unikalny na stronie). */
+  id?: string;
+}
+
+const { subject = '', id = 'form-kontakt' } = Astro.props;
+
+// Bez JS Web3Forms przekierowuje tutaj po wysłaniu (zamiast na swoją
+// angielską stronę podziękowania).
+const redirectUrl = new URL('/dziekuje', Astro.site);
+---
+
+<form
+  id={id}
+  action="https://api.web3forms.com/submit"
+  method="POST"
+  class="max-w-xl space-y-5"
+  data-contact-form
+>
+  <input type="hidden" name="access_key" value={SITE.web3formsKey} />
+  <input type="hidden" name="from_name" value={`${SITE.name} — formularz`} />
+  <input type="hidden" name="redirect" value={redirectUrl} />
+  <!-- Honeypot antyspamowy — pole niewidoczne dla ludzi. -->
+  <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" />
+
+  <div>
+    <label for={`${id}-name`} class="tech mb-2 block !text-[0.7rem] uppercase">Imię</label>
+    <input id={`${id}-name`} name="name" type="text" required autocomplete="name" class="field" />
+  </div>
+
+  <div>
+    <label for={`${id}-email`} class="tech mb-2 block !text-[0.7rem] uppercase">E-mail</label>
+    <input id={`${id}-email`} name="email" type="email" required autocomplete="email" class="field" />
+  </div>
+
+  <div>
+    <label for={`${id}-subject`} class="tech mb-2 block !text-[0.7rem] uppercase">Temat</label>
+    <input id={`${id}-subject`} name="subject" type="text" value={subject} data-subject class="field" />
+  </div>
+
+  <div>
+    <label for={`${id}-message`} class="tech mb-2 block !text-[0.7rem] uppercase">Wiadomość</label>
+    <textarea id={`${id}-message`} name="message" rows="6" required class="field resize-y"></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-solid w-full sm:w-auto">Wyślij wiadomość</button>
+
+  <!-- Region statusu jest w DOM od początku (pusty), żeby czytniki ekranu
+       ogłosiły już pierwszy komunikat. -->
+  <p data-form-status class="min-h-5 text-sm" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  // Wypełnij temat z adresu (?temat=…) — używane przez „Zapytaj o licencję”.
+  const params = new URLSearchParams(window.location.search);
+  const temat = params.get('temat');
+  if (temat) {
+    document
+      .querySelectorAll<HTMLInputElement>('[data-subject]')
+      .forEach((el) => (el.value = temat));
+  }
+
+  // Wysyłka bez przeładowania strony; bez JS formularz działa zwykłym POST.
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const status = form.querySelector('[data-form-status]') as HTMLElement;
+      const button = form.querySelector('button[type=submit]') as HTMLButtonElement;
+      button.disabled = true;
+      status.textContent = 'Wysyłanie…';
+      try {
+        const data = new FormData(form);
+        data.delete('redirect'); // przy wysyłce fetch zostajemy na stronie
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { Accept: 'application/json' },
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        status.textContent = 'Dziękuję — wiadomość wysłana. Odpowiadam zwykle w 1–2 dni robocze.';
+      } catch {
+        status.textContent = 'Nie udało się wysłać. Napisz proszę bezpośrednio na e-mail podany niżej.';
+      } finally {
+        button.disabled = false;
+      }
+    });
+  });
+</script>

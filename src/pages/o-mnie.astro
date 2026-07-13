@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhotoFrame from '../components/PhotoFrame.astro';
+import { SITE } from '../config';
+
+import portrait from '../assets/images/placeholders/ludzie-01.jpg';
+---
+
+<BaseLayout
+  title="O mnie | Revelare"
+  description="Bartłomiej Suchanek — fotograf z Częstochowy. Makrofotografia bezkręgowców Jury i astrofotografia rzadkich zjawisk TLE. Filozofia revelare abscondita."
+>
+  <div class="mx-auto max-w-6xl px-5 md:px-8">
+    <div class="grid gap-10 lg:grid-cols-5 lg:gap-16">
+      <div class="lg:col-span-2">
+        <PhotoFrame
+          image={portrait}
+          alt="Portret Bartłomieja Suchanka — placeholder"
+          aspect="3 / 4"
+          sizes="(min-width: 1024px) 40vw, 100vw"
+        />
+        <p class="tech mt-3 !text-[0.68rem]">[PLACEHOLDER — tu trafi portret ✏️]</p>
+      </div>
+
+      <div class="lg:col-span-3">
+        <p class="kicker mb-3">O mnie</p>
+        <h1 class="display text-5xl md:text-6xl">{SITE.owner}</h1>
+        <p class="mt-2 text-sm text-moss">{SITE.location}</p>
+
+        <!-- ✏️ Docelowy tekst bio — poniżej tymczasowy tekst zastępczy. -->
+        <div class="prose-revelare mt-8 text-sm leading-relaxed">
+          <p>
+            [TEKST TYMCZASOWY ✏️] Fotografuję to, co łatwo przeoczyć — ślimaki na wapiennych
+            skałach Jury, pająki zawieszone w pustce własnych sieci, czerwone duchy zapalające
+            się na ułamek sekundy dziesiątki kilometrów nad burzą. Mieszkam i pracuję
+            w Częstochowie, na progu Jury Krakowsko-Częstochowskiej.
+          </p>
+          <p>
+            [TEKST TYMCZASOWY ✏️] Techniczna strona tej fotografii — focus stacking,
+            wielogodzinne ekspozycje, polowanie na warunki — jest tylko narzędziem.
+            Celem jest moment przyłapania: małe istnienie w dużej przestrzeni,
+            kierunkowe światło, cisza wokół podmiotu.
+          </p>
+        </div>
+
+        <section class="mt-12 border-t border-line pt-8" aria-labelledby="filozofia">
+          <h2 id="filozofia" class="latin text-2xl text-bone">{SITE.motto}</h2>
+          <div class="prose-revelare mt-4 text-sm leading-relaxed">
+            <p>
+              <em>Ujawniać ukryte.</em> Te dwa łacińskie słowa są osią wszystkiego, co robię.
+              Świat, który fotografuję, istnieje obok nas nieprzerwanie — jest tylko zbyt mały,
+              zbyt ciemny albo zbyt krótkotrwały, żebyśmy go widzieli. Zdjęcie jest aktem
+              odsłonięcia: wyciąga z ukrycia to, co zawsze tam było.
+            </p>
+          </div>
+        </section>
+
+        <div class="mt-10 flex flex-wrap gap-4">
+          <a href="/portfolio" class="btn">Zobacz portfolio</a>
+          <a href="/kontakt" class="btn">Napisz do mnie</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

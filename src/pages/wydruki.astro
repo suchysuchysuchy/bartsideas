@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhotoFrame from '../components/PhotoFrame.astro';
+import { SITE } from '../config';
+
+const prints = (await getCollection('prints'))
+  .filter((p) => p.data.available)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const editionLabel = (edition: number | null, sold: number) => {
+  if (edition === null) return 'Edycja otwarta';
+  if (sold >= edition) return `Edycja limitowana ${edition} · wyprzedane`;
+  return `Edycja limitowana ${edition} · dostępne ${edition - sold}`;
+};
+
+const minPrice = (variants: { price: number }[]) => Math.min(...variants.map((v) => v.price));
+---
+
+<BaseLayout
+  title="Wydruki fine art | Revelare"
+  description="Sygnowane wydruki fine art na papierze Hahnemühle — makrofotografia i astrofotografia Bartłomieja Suchanka. Edycje limitowane i otwarte."
+  ogImage={prints[0]?.data.image}
+>
+  <div class="mx-auto max-w-6xl px-5 md:px-8">
+    <header class="max-w-2xl pb-14 md:pb-20">
+      <p class="kicker mb-3">Sklep</p>
+      <h1 class="display text-5xl md:text-6xl">Wydruki fine art</h1>
+      <p class="mt-5 text-moss">
+        Wydruki pigmentowe na papierach archiwalnych, sygnowane — edycje limitowane numerowane.
+        Każdą odbitkę przygotowuję i wysyłam osobiście.
+      </p>
+      <p class="tech mt-4 !text-[0.7rem]">{SITE.fulfillment}</p>
+    </header>
+
+    <div class="grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        prints.map((p) => {
+          const soldOut = p.data.edition !== null && p.data.sold >= p.data.edition;
+          return (
+            <a href={`/wydruki/${p.id}`} class="group block">
+              <PhotoFrame
+                image={p.data.image}
+                alt={p.data.alt}
+                aspect="4 / 5"
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              />
+              <span class="mt-4 block">
+                <span class="block text-bone transition-colors group-hover:text-white">{p.data.title}</span>
+                {p.data.species && <span class="latin block text-sm text-moss">{p.data.species}</span>}
+                <span class="tech mt-2 block !text-[0.7rem]">{editionLabel(p.data.edition, p.data.sold)}</span>
+                <span class="tech mt-1 block !text-[0.7rem] !text-bone">
+                  {soldOut ? '—' : `od ${minPrice(p.data.variants)} zł`}
+                </span>
+              </span>
+            </a>
+          );
+        })
+      }
+    </div>
+  </div>
+</BaseLayout>

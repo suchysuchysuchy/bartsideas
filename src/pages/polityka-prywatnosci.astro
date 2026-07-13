@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config';
+---
+
+<BaseLayout
+  title="Polityka prywatności | Revelare"
+  description="Polityka prywatności strony Revelare — jakie dane są przetwarzane i przez kogo."
+>
+  <div class="mx-auto max-w-3xl px-5 md:px-8">
+    <p class="kicker mb-3">Dokumenty</p>
+    <h1 class="display mb-6 text-4xl md:text-5xl">Polityka prywatności</h1>
+
+    <p class="tech mb-10 border border-line-strong bg-night-raised p-4 !text-[0.72rem]">
+      [DO WERYFIKACJI PRAWNEJ] Poniższy tekst jest szkicem przygotowanym bez udziału
+      prawnika. Przed publikacją zweryfikuj go z osobą uprawnioną.
+    </p>
+
+    <div class="prose-revelare text-sm leading-relaxed">
+      <h2>1. Administrator danych</h2>
+      <p>
+        Administratorem danych osobowych jest {SITE.seller.name},
+        adres do korespondencji: {SITE.seller.address}, e-mail: {SITE.seller.email}.
+      </p>
+
+      <h2>2. Jakie dane przetwarzamy i po co</h2>
+      <ul>
+        <li>
+          <strong>Formularz kontaktowy</strong> — imię, adres e-mail i treść wiadomości,
+          wyłącznie w celu odpowiedzi na zapytanie. Formularz obsługuje usługa Web3Forms,
+          która przekazuje wiadomość na skrzynkę administratora.
+        </li>
+        <li>
+          <strong>Zakup wydruku</strong> — płatność obsługuje Stripe; administrator otrzymuje
+          dane niezbędne do realizacji wysyłki (imię i nazwisko, adres, e-mail).
+        </li>
+        <li>
+          <strong>Zakup pliku cyfrowego</strong> — sprzedaż i dostawę obsługuje Lemon Squeezy
+          jako merchant of record (własny sprzedawca rozliczający podatki).
+        </li>
+      </ul>
+
+      <h2>3. Statystyki bez ciasteczek</h2>
+      <p>
+        Strona korzysta z Cloudflare Web Analytics — narzędzia, które nie używa plików
+        cookies ani nie śledzi użytkowników między stronami. Dlatego strona nie wyświetla
+        baneru cookies.
+      </p>
+
+      <h2>4. Odbiorcy danych</h2>
+      <p>
+        Dane trafiają wyłącznie do podmiotów niezbędnych do działania strony i realizacji
+        zamówień: Web3Forms (formularze), Stripe (płatności), Lemon Squeezy (pliki cyfrowe),
+        Cloudflare (hosting i statystyki) oraz operatora pocztowego/kurierskiego przy wysyłce.
+      </p>
+
+      <h2>5. Twoje prawa</h2>
+      <p>
+        Masz prawo dostępu do swoich danych, ich sprostowania, usunięcia, ograniczenia
+        przetwarzania oraz wniesienia skargi do Prezesa UODO. W sprawach danych napisz
+        na {SITE.seller.email}.
+      </p>
+
+      <h2>6. Okres przechowywania</h2>
+      <p>
+        Korespondencję przechowujemy do zakończenia sprawy, dane zamówień — przez okres
+        wymagany przepisami podatkowymi i rachunkowymi.
+      </p>
+
+      <p class="tech">Wersja: szkic 1.0 · [DO WERYFIKACJI PRAWNEJ]</p>
+    </div>
+  </div>
+</BaseLayout>

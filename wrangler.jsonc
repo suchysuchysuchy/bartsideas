@@ -1,0 +1,14 @@
+// Konfiguracja deployu na Cloudflare Workers (statyczne assety).
+// Workers Builds po `npm run build` wykonuje `npx wrangler deploy`,
+// który serwuje katalog dist/ jako stronę statyczną.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "bartsideas",
+  "compatibility_date": "2026-07-01",
+  "assets": {
+    "directory": "./dist",
+    // Ładne adresy bez .html oraz własna strona 404.
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}

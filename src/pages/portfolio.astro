@@ -1,0 +1,106 @@
+---
+import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhotoCard from '../components/PhotoCard.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { SITE } from '../config';
+
+const photos = (await getCollection('photos')).sort((a, b) => a.data.order - b.data.order);
+
+const sections = [
+  {
+    id: 'makro',
+    kicker: 'Portfolio · 01',
+    title: 'Makro',
+    lead: 'Bezkręgowce Jury Krakowsko-Częstochowskiej. Kierunkowe światło, czarne tło, focus stacking.',
+    items: photos.filter((p) => p.data.category === 'makro'),
+  },
+  {
+    id: 'astro',
+    kicker: 'Portfolio · 02',
+    title: 'Astro & TLE',
+    lead: 'Głębokie niebo nad Jurą i rzadkie zjawiska TLE — red sprites uchwycone wysoko nad frontami burz.',
+    items: photos.filter((p) => p.data.category === 'astro'),
+  },
+  ...(SITE.showPeopleSection
+    ? [
+        {
+          id: 'ludzie',
+          kicker: 'Portfolio · 03',
+          title: 'Ludzie',
+          lead: 'Portrety w naturalnym świetle.',
+          items: photos.filter((p) => p.data.category === 'ludzie'),
+        },
+      ]
+    : []),
+];
+
+const firstImage = photos.find((p) => p.data.featured)?.data.image;
+
+// schema.org — każde zdjęcie jako ImageObject z adresem pliku (contentUrl).
+const imageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: await Promise.all(
+    sections
+      .flatMap((s) => s.items)
+      .map(async (p, i) => {
+        const img = await getImage({
+          src: p.data.image,
+          width: Math.min(p.data.image.width, 2048),
+          format: 'webp',
+        });
+        return {
+          '@type': 'ImageObject',
+          position: i + 1,
+          name: p.data.title,
+          description: p.data.alt,
+          contentUrl: new URL(img.src, Astro.site).toString(),
+          creator: { '@type': 'Person', name: SITE.owner },
+          copyrightNotice: `© ${SITE.owner}`,
+        };
+      }),
+  ),
+};
+---
+
+<BaseLayout
+  title="Portfolio — makro i astro | Revelare"
+  description="Makrofotografia bezkręgowców Jury oraz astrofotografia z rzadkimi zjawiskami TLE. Portfolio Bartłomieja Suchanka."
+  ogImage={firstImage}
+  schema={imageSchema}
+>
+  <div class="mx-auto max-w-6xl px-5 md:px-8">
+    <header class="max-w-2xl pb-16 md:pb-20">
+      <p class="kicker mb-3">Portfolio</p>
+      <h1 class="display text-5xl md:text-6xl">Kadry z ukrycia</h1>
+      <p class="mt-5 text-moss">
+        Mały podmiot w dużej przestrzeni, moment przyłapania. Kliknij kadr, aby obejrzeć go
+        w pełnym rozmiarze.
+      </p>
+    </header>
+
+    {
+      sections.map((s) => (
+        <section id={s.id} class="scroll-mt-28 pb-20 md:pb-28" aria-labelledby={`${s.id}-title`}>
+          <div class="mb-10 border-t border-line pt-8">
+            <p class="kicker mb-2">{s.kicker}</p>
+            <h2 id={`${s.id}-title`} class="display text-4xl">
+              {s.title}
+            </h2>
+            <p class="mt-3 max-w-xl text-sm text-moss">{s.lead}</p>
+          </div>
+
+          <div class="columns-1 gap-8 sm:columns-2 lg:columns-3">
+            {s.items.map((p) => (
+              <PhotoCard photo={p} />
+            ))}
+          </div>
+        </section>
+      ))
+    }
+  </div>
+
+  <Lightbox />
+</BaseLayout>

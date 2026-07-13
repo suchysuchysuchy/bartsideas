@@ -1,125 +1,32 @@
 ---
-const socialLinks = [
-  { label: 'GitHub', href: 'https://github.com/suchysuchysuchy' },
-  { label: 'YouTube', href: 'https://www.youtube.com/@TheSuchySuchySuchy' },
-];
+import { SITE } from '../config';
+
+const year = new Date().getFullYear();
 ---
 
-<footer class="footer">
-  <div class="container">
-    <div class="footer-line"></div>
+<footer class="mt-24 border-t border-line">
+  <div class="mx-auto max-w-6xl px-5 py-12 md:px-8">
+    <p class="latin mb-10 text-lg text-dim">{SITE.motto}</p>
 
-    <div class="footer-content">
-      <div class="footer-logo">
-        bart's<span class="footer-logo-accent">ideas</span>
+    <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+      <div>
+        <p class="text-sm text-moss">© {year} {SITE.owner} · {SITE.name}</p>
+        <p class="mt-1 text-sm text-dim">{SITE.location}</p>
       </div>
 
-      <div class="footer-links">
-        {socialLinks.map((link) => (
-          <a
-            href={link.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="footer-link"
-          >
-            {link.label}
-            <span class="footer-link-arrow">↗</span>
-          </a>
-        ))}
-      </div>
+      <nav aria-label="Linki w stopce">
+        <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+          <li><a class="link-quiet" href={SITE.instagram} rel="me noopener" target="_blank">Instagram</a></li>
+          <li><a class="link-quiet" href={SITE.inaturalist} rel="me noopener" target="_blank">iNaturalist</a></li>
+          <li><a class="link-quiet" href={`mailto:${SITE.email}`}>E-mail</a></li>
+        </ul>
+        <ul class="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+          <li><a class="link-quiet" href="/regulamin">Regulamin</a></li>
+          <li><a class="link-quiet" href="/polityka-prywatnosci">Prywatność</a></li>
+          <li><a class="link-quiet" href="/odstapienie-od-umowy">Odstąpienie od umowy</a></li>
+          <li><a class="link-quiet" href="/licencja">Licencja plików</a></li>
+        </ul>
+      </nav>
     </div>
-
-    <p class="footer-copy">
-      © 2026 Bartłomiej Suchanek · Częstochowa, Poland
-    </p>
   </div>
 </footer>
-
-<style>
-  .footer {
-    padding: var(--space-xl) 0 var(--space-md);
-  }
-
-  .footer-line {
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      var(--color-border),
-      transparent
-    );
-    margin-bottom: var(--space-lg);
-  }
-
-  .footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--space-lg);
-  }
-
-  .footer-logo {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    font-weight: 400;
-  }
-
-  .footer-logo-accent {
-    font-style: italic;
-    font-weight: 600;
-    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .footer-links {
-    display: flex;
-    gap: var(--space-md);
-  }
-
-  .footer-link {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--color-text-muted);
-    transition: color var(--transition-fast);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .footer-link:hover {
-    color: var(--color-accent);
-  }
-
-  .footer-link-arrow {
-    font-size: 0.7rem;
-    opacity: 0;
-    transform: translateY(2px);
-    transition: var(--transition-fast);
-  }
-
-  .footer-link:hover .footer-link-arrow {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .footer-copy {
-    font-size: 0.8rem;
-    color: var(--color-text-dim);
-    text-align: center;
-  }
-
-  @media (max-width: 768px) {
-    .footer-content {
-      flex-direction: column;
-      gap: var(--space-md);
-      text-align: center;
-    }
-
-    .footer-links {
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-  }
-</style>

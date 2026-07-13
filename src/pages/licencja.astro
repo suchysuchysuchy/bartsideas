@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config';
+---
+
+<BaseLayout
+  title="Licencja użytku osobistego | Revelare"
+  description="Pełna treść licencji personal use dla plików cyfrowych kupionych w sklepie Revelare."
+>
+  <div class="mx-auto max-w-3xl px-5 md:px-8">
+    <p class="kicker mb-3">Dokumenty</p>
+    <h1 class="display mb-10 text-4xl md:text-5xl">Licencja użytku osobistego</h1>
+
+    <div class="prose-revelare text-sm leading-relaxed">
+      <p>
+        Ta licencja obowiązuje dla każdego pliku cyfrowego kupionego na stronie {SITE.name}
+        (sprzedawca: {SITE.owner}). Kupując plik, akceptujesz poniższe warunki.
+      </p>
+
+      <h2>1. Co otrzymujesz</h2>
+      <p>
+        Otrzymujesz plik graficzny w pełnej rozdzielczości oraz niewyłączną, bezterminową
+        licencję na korzystanie z niego <strong>wyłącznie do celów osobistych</strong>.
+        Autorskie prawa majątkowe i osobiste do zdjęcia pozostają przy autorze.
+      </p>
+
+      <h2>2. Co wolno</h2>
+      <ul>
+        <li>wydrukować zdjęcie na własne potrzeby — do domu, biura, na prezent;</li>
+        <li>używać go jako tapety, wygaszacza, obrazu w ramce cyfrowej;</li>
+        <li>
+          publikować je na prywatnych profilach społecznościowych z podpisem
+          „fot. {SITE.owner} / {SITE.name}”;
+        </li>
+        <li>wykonać kopię zapasową pliku na własnych nośnikach.</li>
+      </ul>
+
+      <h2>3. Czego nie wolno</h2>
+      <ul>
+        <li>odsprzedawać, udostępniać, wynajmować ani sublicencjonować pliku;</li>
+        <li>
+          używać zdjęcia do jakichkolwiek celów komercyjnych — w reklamie, na produktach,
+          w publikacjach, na stronach firmowych;
+        </li>
+        <li>publikować pliku w pełnej rozdzielczości w internecie;</li>
+        <li>usuwać oznaczeń autorskich ani przypisywać sobie autorstwa;</li>
+        <li>używać pliku do trenowania modeli uczenia maszynowego.</li>
+      </ul>
+
+      <h2>4. Licencja komercyjna</h2>
+      <p>
+        Użycie komercyjne wymaga osobnej, indywidualnie wycenianej licencji.
+        <a href="/kontakt?temat=Licencja%20komercyjna">Napisz do mnie</a> — odpowiadam
+        zwykle w 1–2 dni robocze.
+      </p>
+
+      <h2>5. Naruszenia</h2>
+      <p>
+        Korzystanie z pliku poza zakresem licencji stanowi naruszenie praw autorskich
+        w rozumieniu ustawy z dnia 4 lutego 1994 r. o prawie autorskim i prawach pokrewnych.
+      </p>
+
+      <p class="tech">Wersja licencji: 1.0 · obowiązuje od 2026 r.</p>
+    </div>
+  </div>
+</BaseLayout>
