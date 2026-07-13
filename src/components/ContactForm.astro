@@ -93,9 +93,7 @@ const mailto = `mailto:${SITE.email}${subject ? `?subject=${encodeURIComponent(s
       .forEach((el) => (el.value = temat));
     // Fallback mailto (gdy formularz jest w przygotowaniu) też dostaje temat.
     document.querySelectorAll<HTMLAnchorElement>('[data-mailto]').forEach((el) => {
-      const url = new URL(el.href);
-      url.search = `?subject=${encodeURIComponent(temat)}`;
-      el.href = url.toString();
+      el.href = `${el.href.split('?')[0]}?subject=${encodeURIComponent(temat)}`;
     });
   }
 

@@ -1,13 +1,7 @@
 ---
-import { SITE, isRealLink } from '../config';
+import { SITE, socials } from '../config';
 
 const year = new Date().getFullYear();
-
-// Linki-placeholdery („twoj-profil”) nie pokazują się publicznie.
-const socials = [
-  { href: SITE.instagram, label: 'Instagram' },
-  { href: SITE.inaturalist, label: 'iNaturalist' },
-].filter((s) => isRealLink(s.href));
 ---
 
 <footer class="mt-24 border-t border-line">

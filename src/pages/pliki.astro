@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PhotoFrame from '../components/PhotoFrame.astro';
+import ShopEmptyState from '../components/ShopEmptyState.astro';
 
 const digitals = (await getCollection('digitals'))
   .filter((d) => d.data.published && d.data.available)
@@ -27,12 +28,9 @@ const rendered = await Promise.all(
       </p>
     </header>
 
-    <!-- Skrót licencji personal use (pokazywany, gdy są produkty). -->
-    <aside
-      class="mb-14 max-w-2xl border border-line bg-night-raised p-6"
-      class:list={[digitals.length === 0 && 'hidden']}
-      aria-label="Skrót licencji"
-    >
+    <!-- Skrót licencji personal use (renderowany, gdy są produkty). -->
+    {digitals.length > 0 && (
+    <aside class="mb-14 max-w-2xl border border-line bg-night-raised p-6" aria-label="Skrót licencji">
       <h2 class="kicker mb-3">Licencja — użytek osobisty</h2>
       <ul class="space-y-1.5 text-sm text-moss">
         <li>✓ wydruk na własne potrzeby (dom, prezent)</li>
@@ -42,21 +40,15 @@ const rendered = await Promise.all(
       </ul>
       <a href="/licencja" class="link-quiet mt-4 inline-block text-sm">Pełna treść licencji →</a>
     </aside>
+    )}
 
     {
       digitals.length === 0 && (
-        <div class="max-w-2xl border border-line bg-night-raised px-8 py-16 text-center md:py-20">
-          <p class="latin text-lg text-moss">nondum revelata</p>
-          <h2 class="display mt-3 text-3xl md:text-4xl">Sklep w przygotowaniu</h2>
-          <p class="mx-auto mt-4 max-w-md text-sm text-moss">
-            Pierwsze pliki cyfrowe pojawią się tu wkrótce. Do tego czasu zapraszam do
-            portfolio — a jeśli któryś kadr jest Ci potrzebny już teraz, napisz.
-          </p>
-          <div class="mt-8 flex flex-wrap justify-center gap-4">
-            <a href="/portfolio" class="btn">Zobacz portfolio</a>
-            <a href="/kontakt?temat=Plik%20cyfrowy%20—%20zapytanie" class="btn">Zapytaj o plik</a>
-          </div>
-        </div>
+        <ShopEmptyState
+          description="Pierwsze pliki cyfrowe pojawią się tu wkrótce. Do tego czasu zapraszam do portfolio — a jeśli któryś kadr jest Ci potrzebny już teraz, napisz."
+          ctaHref="/kontakt?temat=Plik%20cyfrowy%20—%20zapytanie"
+          ctaLabel="Zapytaj o plik"
+        />
       )
     }
 

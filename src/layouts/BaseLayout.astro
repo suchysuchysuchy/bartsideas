@@ -3,7 +3,8 @@ import '../styles/global.css';
 import { getImage } from 'astro:assets';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import { SITE } from '../config';
+import { SITE, NOINDEX_PATHS } from '../config';
+import { cleanPath } from '../lib/paths';
 import defaultOg from '../assets/images/NGC7000v11-2.jpg';
 
 interface Props {
@@ -36,9 +37,13 @@ const ogUrl = new URL(og.src, Astro.site);
 
 // Przy build.format 'file' pathname kończy się na ".html" — canonical
 // ma wskazywać czysty adres (/, /wydruki, /wydruki/slug).
-const cleanPath =
-  Astro.url.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '') || '/';
-const canonical = new URL(cleanPath, Astro.site);
+const path = cleanPath(Astro.url.pathname);
+const canonical = new URL(path, Astro.site);
+
+// noindex: z propa strony albo automatycznie z centralnej listy
+// (ta sama lista wyklucza te ścieżki z sitemapy w astro.config.mjs).
+const robotsNoIndex =
+  noIndex || NOINDEX_PATHS.some((p) => path === p || path.startsWith(`${p}/`));
 
 const baseSchema = {
   '@context': 'https://schema.org',
@@ -64,7 +69,7 @@ const schemas = [baseSchema, ...(schema ? (Array.isArray(schema) ? schema : [sch
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="generator" content={Astro.generator} />
-    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    {robotsNoIndex && <meta name="robots" content="noindex, nofollow" />}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE.name} />

@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
+import { NOINDEX_PATHS } from './src/config';
 
 export default defineConfig({
   // ✏️ Adres docelowy strony — przy zmianie domeny podmień tylko tę linijkę
@@ -14,18 +15,13 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      // Poza sitemapą: stub angielski (brak treści EN), strona podziękowania
-      // oraz dokumenty prawne, dopóki są szkicami [DO WERYFIKACJI PRAWNEJ].
+      // Strony noindex (lista w src/config.ts — to samo źródło ustawia
+      // meta robots w BaseLayout) nie trafiają do sitemapy.
       filter: (page) => {
-        const path = new URL(page).pathname;
-        const excluded = [
-          '/en',
-          '/dziekuje',
-          '/regulamin',
-          '/polityka-prywatnosci',
-          '/odstapienie-od-umowy',
-        ];
-        return !excluded.some((e) => path === e || path === `${e}/` || path.startsWith(`${e}/`));
+        const path = new URL(page).pathname.replace(/\.html$/, '');
+        return !NOINDEX_PATHS.some(
+          (e) => path === e || path === `${e}/` || path.startsWith(`${e}/`),
+        );
       },
     }),
   ],

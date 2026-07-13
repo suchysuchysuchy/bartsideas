@@ -1,5 +1,6 @@
 ---
 import { SITE } from '../config';
+import { cleanPath } from '../lib/paths';
 
 const links = [
   { href: '/portfolio', label: 'Portfolio' },
@@ -11,9 +12,10 @@ const links = [
   { href: '/kontakt', label: 'Kontakt' },
 ];
 
-// Ta sama normalizacja co canonical w BaseLayout — przy build.format 'file'
-// pathname kończy się na ".html" i bez tego aria-current nigdy nie trafia.
-const path = Astro.url.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '') || '/';
+// Ta sama normalizacja co canonical w BaseLayout (wspólny cleanPath) —
+// przy build.format 'file' pathname kończy się na ".html" i bez tego
+// aria-current nigdy nie trafia.
+const path = cleanPath(Astro.url.pathname);
 const isActive = (href: string) => path === href || path.startsWith(href + '/');
 ---
 
