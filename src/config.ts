@@ -22,7 +22,7 @@ export const SITE = {
 
   // ✏️ Klucz dostępu Web3Forms (https://web3forms.com — darmowe, podajesz
   // tylko e-mail i dostajesz klucz). Bez klucza formularze nie wysyłają.
-  web3formsKey: 'TU-WKLEJ-KLUCZ-WEB3FORMS',
+  web3formsKey: '02564a10-7282-4bda-aa75-c1ebc619b8c8',
 
   // ✏️ Token Cloudflare Web Analytics (zakładka Analytics → Web Analytics
   // w panelu Cloudflare). Pusty = analityka wyłączona.
