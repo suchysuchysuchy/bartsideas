@@ -58,16 +58,16 @@ const entries = [
   <section class="relative h-[100dvh]">
     <div class="reveal-hero absolute inset-0">
       <!-- Na pionowym ekranie object-cover renderuje obraz szerzej niż 100vw
-           (proporcje kadru ~1,3 × wysokość widoku); niższa jakość trzyma
-           budżet LCP mimo doboru większego wariantu. -->
+           (proporcje kadru ~1,3 × wysokość widoku). min() ogranicza telefony
+           do wariantu ~1600 px — na ciemnym kadrze różnica jest niewidoczna,
+           a plik jest o połowę lżejszy (budżet LCP na 4G). -->
       <PhotoFrame
         image={hero.data.image}
         alt={hero.data.alt}
-        sizes="(orientation: portrait) 130vh, 100vw"
+        sizes="(orientation: portrait) min(130vh, 900px), 100vw"
         loading="eager"
         fetchpriority="high"
         reveal={false}
-        quality={55}
         aspect="auto"
         class="h-full w-full"
       />
