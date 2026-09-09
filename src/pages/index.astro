@@ -4,53 +4,40 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PhotoFrame from '../components/PhotoFrame.astro';
 import { SITE } from '../config';
 
-import imgPortfolio from '../assets/images/placeholders/makro-02.jpg';
-import imgWydruki from '../assets/images/ngc4565v1.jpg';
-import imgUslugi from '../assets/images/placeholders/b2b-01.jpg';
-import imgSzkolenia from '../assets/images/m52_v2.jpg';
-
 const photos = await getCollection('photos');
 const hero = photos.find((p) => p.data.hero) ?? photos[0];
+// Hero nie powtarza się niżej; kadry głębokiego nieba pokazujemy
+// w kwadratowym cropie (obiekt w centrum), pełny kadr — w portfolio.
 const featured = photos
-  .filter((p) => p.data.featured && (SITE.showPeopleSection || p.data.category !== 'ludzie'))
+  .filter((p) => p.data.featured && !p.data.hero)
   .sort((a, b) => a.data.order - b.data.order)
   .slice(0, 6);
 
-const entries = [
+// Obszary pracy — opisane tekstem, bez atrap zdjęć. Kadry komercyjne
+// dojdą do portfolio, gdy będą wybrane i zatwierdzone.
+const fields = [
   {
-    href: '/portfolio',
-    title: 'Portfolio',
-    sub: 'makro · astro · TLE',
-    image: imgPortfolio,
-    alt: 'Wejście do portfolio — kadr makro',
+    title: 'Fotografia produktowa',
+    desc: 'Packshoty, sceny lifestyle i makrodetal — zdjęcia, które mają sprzedawać: do sklepu internetowego, katalogu i social mediów.',
   },
   {
-    href: '/wydruki',
-    title: 'Wydruki',
-    sub: 'fine art · edycje limitowane',
-    image: imgWydruki,
-    alt: 'Wejście do sklepu z wydrukami — galaktyka Igła',
+    title: 'Makro i fotografia techniczna',
+    desc: 'Focus stacking, pełna kontrola światła i ostrości. Dokumentacja małych obiektów — od przyrody po detal produkcyjny.',
   },
   {
-    href: '/uslugi',
-    title: 'Usługi',
-    sub: 'produkt · lifestyle · wizerunek',
-    image: imgUslugi,
-    alt: 'Wejście do usług — fotografia produktowa i lifestyle',
+    title: 'Astrofotografia i nocny krajobraz',
+    desc: 'Dziesięć lat pracy z nocnym niebem — wielogodzinne ekspozycje, projekty autorskie i warsztat, który widać w każdym kadrze.',
   },
   {
-    href: '/szkolenia',
-    title: 'Szkolenia',
-    sub: 'nauczę Cię · 1:1',
-    image: imgSzkolenia,
-    alt: 'Wejście do szkoleń — nauka astrofotografii i makro',
+    title: 'Wnętrza, jedzenie, przyroda',
+    desc: 'Spójne serie zdjęć dla lokali, pracowni i marek. Od sesji po gotowe, wyselekcjonowane pliki.',
   },
 ];
 ---
 
 <BaseLayout
-  title="Revelare — Bartłomiej Suchanek · fotografia makro i astro"
-  description="Revelare abscondita — ujawniać ukryte. Makrofotografia bezkręgowców Jury i astrofotografia rzadkich zjawisk TLE. Wydruki fine art, pliki cyfrowe, fotografia produktowa."
+  title={`${SITE.owner} — ${SITE.tagline} | ${SITE.name}`}
+  description={`${SITE.owner} (${SITE.name}) — ${SITE.tagline}. Packshoty, sesje produktowe, makro z focus stackingiem i astrofotografia. ${SITE.location}. Współpraca przez Useme, po polsku i angielsku.`}
   ogImage={hero.data.image}
   padTop={false}
 >
@@ -75,14 +62,22 @@ const entries = [
     <div class="absolute inset-0 bg-gradient-to-b from-night/60 via-night/20 to-night"></div>
 
     <div class="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-      <p class="kicker mb-6">Bartłomiej Suchanek · fotografia</p>
-      <h1 class="display text-6xl sm:text-7xl md:text-8xl">{SITE.name}</h1>
-      <p class="latin mt-4 text-xl text-moss sm:text-2xl">{SITE.motto}</p>
-      <p class="tech mt-2 !text-[0.7rem]">{SITE.mottoTranslation}</p>
+      <p class="kicker mb-6">{SITE.name} · {SITE.location}</p>
+      <h1 class="display text-5xl sm:text-6xl md:text-7xl">{SITE.owner}</h1>
+      <p class="mt-4 max-w-xl text-lg text-bone sm:text-xl">
+        Fotografia produktowa, makro i&nbsp;astrofotografia
+      </p>
+      <p class="latin mt-3 text-base text-moss sm:text-lg">
+        {SITE.motto} — {SITE.mottoTranslation}
+      </p>
+      <div class="mt-9 flex flex-wrap justify-center gap-4">
+        <a href="/portfolio" class="btn btn-solid">Zobacz portfolio</a>
+        <a href="/kontakt?temat=Zapytanie%20o%20sesję" class="btn">Zapytaj o sesję</a>
+      </div>
     </div>
 
     <a
-      href="#wejscia"
+      href="#zakres"
       class="absolute bottom-8 left-1/2 flex h-11 w-11 -translate-x-1/2 items-center justify-center text-dim transition-colors hover:text-bone"
       aria-label="Przewiń w dół"
     >
@@ -92,37 +87,50 @@ const entries = [
     </a>
   </section>
 
-  <!-- Cztery wejścia. -->
-  <section id="wejscia" class="mx-auto max-w-6xl scroll-mt-24 px-5 py-20 md:px-8 md:py-28">
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+  <!-- Czym się zajmuję. -->
+  <section id="zakres" class="mx-auto max-w-6xl scroll-mt-24 px-5 py-20 md:px-8 md:py-28">
+    <p class="kicker mb-2">Zakres pracy</p>
+    <h2 class="display mb-4 text-4xl md:text-5xl">Co mogę dla Ciebie sfotografować</h2>
+    <p class="mb-12 max-w-2xl text-moss">
+      Od packshotu po głębokie niebo — wspólnym mianownikiem jest kontrola światła,
+      detal i pełna postprodukcja: selekcja, wywołanie RAW, retusz i spójny kolor
+      całych serii.
+    </p>
+    <div class="grid gap-x-10 gap-y-10 sm:grid-cols-2">
       {
-        entries.map((e) => (
-          <a href={e.href} class="group relative block overflow-hidden">
-            <PhotoFrame image={e.image} alt={e.alt} aspect="4 / 5" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" />
-            <span class="absolute inset-0 flex flex-col items-center justify-end bg-gradient-to-t from-night/85 via-night/10 to-transparent pb-8">
-              <span class="display text-3xl transition-transform duration-500 group-hover:-translate-y-1">
-                {e.title}
-              </span>
-              <span class="tech mt-1 !text-[0.68rem]">{e.sub}</span>
-            </span>
-          </a>
+        fields.map((f, i) => (
+          <article class="border-t border-line pt-6">
+            <p class="tech mb-3 !text-[0.65rem]">{String(i + 1).padStart(2, '0')}</p>
+            <h3 class="display text-2xl">{f.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-moss">{f.desc}</p>
+          </article>
         ))
       }
+    </div>
+    <div class="mt-12">
+      <a href="/uslugi" class="btn">Oferta i przebieg współpracy</a>
     </div>
   </section>
 
   <!-- Wybrane prace. -->
   <section class="mx-auto max-w-6xl px-5 pb-4 md:px-8">
     <p class="kicker mb-2">Wybrane prace</p>
-    <h2 class="display mb-10 text-4xl md:text-5xl">To, co ukryte</h2>
+    <h2 class="display mb-10 text-4xl md:text-5xl">Z autorskiego archiwum</h2>
 
-    <div class="columns-1 gap-6 sm:columns-2 lg:columns-3">
+    <div class="grid gap-6 sm:grid-cols-3">
       {
         featured.map((p) => (
-          <a href="/portfolio" class="group mb-6 block break-inside-avoid">
-            <PhotoFrame image={p.data.image} alt={p.data.alt} />
+          <a href="/portfolio" class="group block">
+            <PhotoFrame
+              image={p.data.image}
+              alt={p.data.alt}
+              aspect="1 / 1"
+              sizes="(min-width: 640px) 33vw, 100vw"
+            />
             <span class="mt-3 block">
-              <span class="block text-sm text-bone">{p.data.title}</span>
+              <span class="block text-sm text-bone transition-colors group-hover:text-white">
+                {p.data.title}
+              </span>
               {p.data.species && <span class="latin block text-sm text-moss">{p.data.species}</span>}
             </span>
           </a>
@@ -135,14 +143,18 @@ const entries = [
     </div>
   </section>
 
-  <!-- Pas o marce. -->
+  <!-- Pas o autorze + wejście do współpracy. -->
   <section class="mx-auto max-w-3xl px-5 py-24 text-center md:px-8 md:py-32">
     <p class="latin text-2xl leading-relaxed text-bone md:text-3xl">„{SITE.motto}”</p>
     <p class="mt-6 text-moss">
-      Ujawniać ukryte — bezkręgowce Jury, które mijamy nie widząc ich, i zjawiska nad burzami,
-      które trwają krócej niż mrugnięcie. Fotografia jako akt odsłaniania.
+      Fotografuję od kilkunastu lat, od dziesięciu pracuję z nocnym niebem. Zdjęcia robię
+      z myślą o ich zastosowaniu — kilka lat zarządzania w firmie produkcyjnej nauczyło
+      mnie patrzeć na fotografię także od strony sprzedaży. Pracuję po polsku i angielsku.
     </p>
-    <a href="/o-mnie" class="link-quiet mt-6 inline-block text-sm">O mnie i filozofii prac →</a>
+    <div class="mt-8 flex flex-wrap justify-center gap-4">
+      <a href="/o-mnie" class="btn">Poznaj mnie</a>
+      <a href={SITE.useme} rel="noopener" target="_blank" class="btn">Profil na Useme ↗</a>
+    </div>
   </section>
 </BaseLayout>
 

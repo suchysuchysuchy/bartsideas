@@ -3,8 +3,10 @@
  * Pola oznaczone ✏️ podmień na własne dane.
  */
 export const SITE = {
-  name: 'Revelare',
+  name: 'Bartsideas',
   owner: 'Bartłomiej Suchanek',
+  // Jedno zdanie o zawodzie — używane w hero i opisach SEO.
+  tagline: 'fotografia produktowa, makro i astrofotografia',
   motto: 'revelare abscondita',
   mottoTranslation: 'ujawniać ukryte',
   location: 'Częstochowa · Jura Krakowsko-Częstochowska',
@@ -16,6 +18,7 @@ export const SITE = {
   // jako placeholder i NIE pokazują się na stronie.
   instagram: 'https://www.instagram.com/bartsideas/',
   inaturalist: 'https://www.inaturalist.org/people/bartsuchy',
+  useme: 'https://useme.com/pl/roles/contractor/bartsuchy,695843/',
 
   // Czy sekcja „Ludzie” ma być widoczna w portfolio? (true / false)
   showPeopleSection: false,
@@ -47,6 +50,7 @@ export const hasWeb3formsKey = !SITE.web3formsKey.startsWith('TU-WKLEJ') && SITE
 
 /** Profile społecznościowe — jedna lista dla stopki i strony kontaktu. */
 export const socials = [
+  { href: SITE.useme, label: 'Useme' },
   { href: SITE.instagram, label: 'Instagram' },
   { href: SITE.inaturalist, label: 'iNaturalist' },
 ].filter((s) => isRealLink(s.href));
@@ -62,4 +66,8 @@ export const NOINDEX_PATHS = [
   '/regulamin', // szkice prawne [DO WERYFIKACJI PRAWNEJ]
   '/polityka-prywatnosci',
   '/odstapienie-od-umowy',
+  '/wydruki', // sklep w przygotowaniu — wraca do indeksu przy starcie sprzedaży
+  '/pliki',
+  '/szkolenia', // oferta w przygotowaniu — poza nawigacją do czasu ustalenia cen
+  '/licencja', // dokument pomocniczy sklepu
 ];

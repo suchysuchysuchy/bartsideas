@@ -4,17 +4,19 @@ import { SITE } from '../config';
 ---
 
 <BaseLayout
-  title="Revelare — Bartłomiej Suchanek · macro & astro photography"
-  description="Revelare abscondita — to reveal the hidden. Macro photography of Jura invertebrates and astrophotography of rare TLE phenomena. English version coming soon."
+  title={`${SITE.owner} — product, macro & astrophotography | ${SITE.name}`}
+  description="Product photography, macro with focus stacking and astrophotography. Based in Częstochowa, Poland — working in Polish and English. Full English version coming soon."
   lang="en"
   noIndex
 >
   <div class="flex min-h-[55dvh] flex-col items-center justify-center px-6 text-center">
-    <h1 class="display text-5xl md:text-6xl">{SITE.name}</h1>
-    <p class="latin mt-4 text-xl text-moss">{SITE.motto}</p>
+    <h1 class="display text-5xl md:text-6xl">{SITE.owner}</h1>
+    <p class="mt-3 text-moss">Product, macro & astrophotography — {SITE.name}</p>
+    <p class="latin mt-3 text-lg text-moss">{SITE.motto}</p>
     <p class="mt-6 max-w-md text-sm text-dim">
-      The English version of this site is on its way. In the meantime, the photographs
-      speak every language.
+      The full English version of this site is on its way. I work with clients in
+      English too — feel free to write me at
+      <a href={`mailto:${SITE.email}`} class="link-quiet">{SITE.email}</a>.
     </p>
     <a href="/" class="btn mt-10">Przejdź do wersji polskiej</a>
   </div>

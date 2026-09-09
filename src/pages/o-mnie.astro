@@ -1,56 +1,80 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PhotoFrame from '../components/PhotoFrame.astro';
 import { SITE } from '../config';
 
-import portrait from '../assets/images/placeholders/ludzie-01.jpg';
+// Zamiast portretu (do czasu jego dostarczenia) — autorski kadr.
+const photos = await getCollection('photos');
+const sideImage = photos.find((p) => p.id === 'ngc4565-igla') ?? photos[0];
+
+const tools = [
+  'Lightroom Classic',
+  'Photoshop',
+  'Helicon Focus Pro',
+  'PixInsight',
+  'Siril',
+  'Topaz',
+];
 ---
 
 <BaseLayout
-  title="O mnie | Revelare"
-  description="Bartłomiej Suchanek — fotograf z Częstochowy. Makrofotografia bezkręgowców Jury i astrofotografia rzadkich zjawisk TLE. Filozofia revelare abscondita."
+  title={`O mnie — ${SITE.owner} | ${SITE.name}`}
+  description={`${SITE.owner} — fotograf z Częstochowy (${SITE.name} / Revelare). Kilkanaście lat fotografii, dziesięć lat astrofotografii, doświadczenie w fotografii produktowej i zarządzaniu w firmie produkcyjnej.`}
 >
   <div class="mx-auto max-w-6xl px-5 md:px-8">
     <div class="grid gap-10 lg:grid-cols-5 lg:gap-16">
-      <div class="lg:col-span-2">
+      <div class="order-last lg:order-first lg:col-span-2">
         <PhotoFrame
-          image={portrait}
-          alt="Portret Bartłomieja Suchanka — placeholder"
+          image={sideImage.data.image}
+          alt={sideImage.data.alt}
           aspect="3 / 4"
           sizes="(min-width: 1024px) 40vw, 100vw"
         />
-        <p class="tech mt-3 !text-[0.68rem]">[PLACEHOLDER — tu trafi portret ✏️]</p>
+        <p class="tech mt-3 !text-[0.68rem]">
+          {sideImage.data.title} — z portfolio autorskiego
+        </p>
       </div>
 
       <div class="lg:col-span-3">
         <p class="kicker mb-3">O mnie</p>
         <h1 class="display text-5xl md:text-6xl">{SITE.owner}</h1>
-        <p class="mt-2 text-sm text-moss">{SITE.location}</p>
+        <p class="mt-2 text-sm text-moss">{SITE.location} · {SITE.name}</p>
 
-        <!-- ✏️ Docelowy tekst bio — poniżej tymczasowy tekst zastępczy. -->
         <div class="prose-revelare mt-8 text-sm leading-relaxed">
           <p>
-            [TEKST TYMCZASOWY ✏️] Fotografuję to, co łatwo przeoczyć — ślimaki na wapiennych
-            skałach Jury, pająki zawieszone w pustce własnych sieci, czerwone duchy zapalające
-            się na ułamek sekundy dziesiątki kilometrów nad burzą. Mieszkam i pracuję
-            w Częstochowie, na progu Jury Krakowsko-Częstochowskiej.
+            Fotografuję od kilkunastu lat, a od dziesięciu zajmuję się astrofotografią —
+            dziedziną, która jak żadna inna uczy cierpliwości, precyzji i pracy
+            z trudnym światłem. Ten warsztat przenoszę do fotografii komercyjnej:
+            packshotów, sesji produktowych, makrofotografii z focus stackingiem,
+            wnętrz i jedzenia.
           </p>
           <p>
-            [TEKST TYMCZASOWY ✏️] Techniczna strona tej fotografii — focus stacking,
-            wielogodzinne ekspozycje, polowanie na warunki — jest tylko narzędziem.
-            Celem jest moment przyłapania: małe istnienie w dużej przestrzeni,
-            kierunkowe światło, cisza wokół podmiotu.
+            Fotografowałem produkty marki Marioinex. Mam też około sześciu lat
+            doświadczenia zarządczego w firmie produkcyjnej — wiem, jak działa
+            biznes po drugiej stronie obiektywu i do czego naprawdę służą zdjęcia
+            w sprzedaży. Projektuję i nadzoruję automatyzację workflow
+            fotograficznego z użyciem Pythona i narzędzi AI, co pozwala mi sprawnie
+            obsługiwać także duże serie zdjęć. Pracuję po polsku i angielsku.
           </p>
         </div>
 
-        <section class="mt-12 border-t border-line pt-8" aria-labelledby="filozofia">
+        <section class="mt-10 border-t border-line pt-6" aria-labelledby="narzedzia">
+          <h2 id="narzedzia" class="kicker mb-4">Narzędzia postprodukcji</h2>
+          <ul class="flex flex-wrap gap-x-5 gap-y-2">
+            {tools.map((t) => <li class="tech !text-[0.7rem]">{t}</li>)}
+          </ul>
+        </section>
+
+        <section class="mt-10 border-t border-line pt-8" aria-labelledby="filozofia">
           <h2 id="filozofia" class="latin text-2xl text-bone">{SITE.motto}</h2>
           <div class="prose-revelare mt-4 text-sm leading-relaxed">
             <p>
-              <em>Ujawniać ukryte.</em> Te dwa łacińskie słowa są osią wszystkiego, co robię.
-              Świat, który fotografuję, istnieje obok nas nieprzerwanie — jest tylko zbyt mały,
-              zbyt ciemny albo zbyt krótkotrwały, żebyśmy go widzieli. Zdjęcie jest aktem
-              odsłonięcia: wyciąga z ukrycia to, co zawsze tam było.
+              <em>Ujawniać ukryte</em> — to sygnatura moich projektów autorskich,
+              prowadzonych pod nazwą Revelare. Świat, który fotografuję nocą, istnieje
+              obok nas nieprzerwanie — jest tylko zbyt ciemny, zbyt mały albo zbyt
+              krótkotrwały, żebyśmy go widzieli. Zdjęcie jest aktem odsłonięcia.
+              Ta sama uważność na detal i światło pracuje w każdym zleceniu.
             </p>
           </div>
         </section>
@@ -58,6 +82,7 @@ import portrait from '../assets/images/placeholders/ludzie-01.jpg';
         <div class="mt-10 flex flex-wrap gap-4">
           <a href="/portfolio" class="btn">Zobacz portfolio</a>
           <a href="/kontakt" class="btn">Napisz do mnie</a>
+          <a href={SITE.useme} rel="noopener" target="_blank" class="btn">Useme ↗</a>
         </div>
       </div>
     </div>
