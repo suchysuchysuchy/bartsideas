@@ -5,16 +5,16 @@ import { SITE, socials } from '../config';
 ---
 
 <BaseLayout
-  title="Kontakt | Revelare"
-  description="Napisz do mnie — zapytania o wydruki, licencje komercyjne i sesje produktowe. Bartłomiej Suchanek, Częstochowa."
+  title={`Kontakt | ${SITE.owner}`}
+  description={`Zapytania o sesje produktowe, makrofotografię, wnętrza i postprodukcję. ${SITE.owner}, ${SITE.location}. Współpraca także przez Useme, po polsku i angielsku.`}
 >
   <div class="mx-auto max-w-6xl px-5 md:px-8">
     <header class="max-w-2xl pb-12">
       <p class="kicker mb-3">Kontakt</p>
       <h1 class="display text-5xl md:text-6xl">Napisz do mnie</h1>
       <p class="mt-5 text-moss">
-        Wydruki, licencje komercyjne, sesje produktowe, współprace — odpowiadam zwykle
-        w 1–2 dni robocze.
+        Sesje produktowe, makro, wnętrza, postprodukcja, współprace — odpowiadam zwykle
+        w 1–2 dni robocze, po polsku i angielsku.
       </p>
     </header>
 
@@ -26,6 +26,18 @@ import { SITE, socials } from '../config';
           <h2 class="kicker mb-2">E-mail</h2>
           <a href={`mailto:${SITE.email}`} class="link-quiet text-lg">{SITE.email}</a>
         </div>
+
+        <div class="border border-line bg-night-raised p-6">
+          <h2 class="kicker mb-2">Zlecenie przez Useme</h2>
+          <p class="text-sm text-moss">
+            Wolisz formalną ścieżkę? Zlecenie możemy rozliczyć przez Useme —
+            z umową i fakturą, bez formalności po Twojej stronie.
+          </p>
+          <a href={SITE.useme} rel="me noopener" target="_blank" class="btn mt-5">
+            Mój profil na Useme ↗
+          </a>
+        </div>
+
         {
           socials.length > 0 && (
             <div>

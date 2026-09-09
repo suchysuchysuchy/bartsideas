@@ -51,7 +51,9 @@ const baseSchema = {
   name: SITE.owner,
   jobTitle: 'Fotograf',
   brand: SITE.name,
+  knowsLanguage: ['pl', 'en'],
   url: Astro.site?.toString(),
+  sameAs: [SITE.instagram, SITE.inaturalist, SITE.useme],
   address: { '@type': 'PostalAddress', addressLocality: 'Częstochowa', addressCountry: 'PL' },
 };
 
