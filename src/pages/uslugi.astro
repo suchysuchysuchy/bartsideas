@@ -32,6 +32,57 @@ const services = [
   },
 ];
 
+// Cennik — pakiety startowe (ceny netto) i dopłaty za dodatkowe zdjęcia.
+const pricing = [
+  {
+    name: 'Packshoty: pakiet startowy',
+    price: '600 zł',
+    unit: '10 gotowych zdjęć',
+    scope:
+      'Do 5 niewielkich, podobnych produktów, jedno uzgodnione tło i spójny sposób oświetlenia. Korekta koloru, podstawowy retusz, pliki do publikacji internetowej oraz w wysokiej rozdzielczości.',
+  },
+  {
+    name: 'Makro i detale techniczne',
+    price: '750 zł',
+    unit: '5 gotowych zdjęć',
+    scope:
+      'Do 3 niewielkich obiektów, jedna uzgodniona koncepcja. Zbliżenia faktury, konstrukcji lub detalu, ze składaniem ostrości, gdy jest potrzebne.',
+  },
+  {
+    name: 'Mieszkanie na sprzedaż lub wynajem',
+    price: '650 zł',
+    unit: '15 gotowych zdjęć',
+    scope:
+      'Jedno przygotowane mieszkanie do 70 m², do 90 minut fotografowania. Korekta geometrii, ekspozycji i koloru. Dojazd w granicach Częstochowy w cenie.',
+  },
+  {
+    name: 'Podstawowa obróbka zdjęć',
+    price: '250 zł',
+    unit: '10 gotowych zdjęć',
+    scope:
+      'Materiał wybrany przez klienta, korekta ekspozycji i balansu bieli, kadrowanie, wyrównanie kolorystyki serii oraz eksport. Bez złożonego retuszu i fotomontażu.',
+  },
+  {
+    name: 'Sesje aranżowane, kulinarne, wnętrza komercyjne',
+    price: 'wycena indywidualna',
+    unit: '',
+    scope: 'Cena po ustaleniu liczby scen, ujęć, przygotowania planu i wykorzystania zdjęć.',
+  },
+  {
+    name: 'Nocny krajobraz i projekty specjalne',
+    price: 'wycena indywidualna',
+    unit: '',
+    scope: 'Lokalizacja, dojazd, zależność od pogody, czas realizacji i licencja ustalane osobno.',
+  },
+];
+
+const extras = [
+  { name: 'Kolejny prosty packshot w tym samym ustawieniu', price: '45 zł / zdjęcie' },
+  { name: 'Kolejne zdjęcie makro o podobnej trudności', price: '150 zł / zdjęcie' },
+  { name: 'Dodatkowe zdjęcie wnętrza z tej samej wizyty', price: '40 zł / zdjęcie' },
+  { name: 'Kolejne zdjęcie w pakiecie podstawowej obróbki', price: '25 zł / zdjęcie' },
+];
+
 const steps = [
   {
     name: 'Brief',
@@ -43,7 +94,7 @@ const steps = [
   },
   {
     name: 'Sesja',
-    desc: 'W Częstochowie i okolicach pracuję na miejscu; produkty mogę też sfotografować u siebie po przesyłce. Zdjęcia robię pod ustalone zastosowanie.',
+    desc: 'W Częstochowie i okolicach pracuję na miejscu, na zlecenia dalej dojeżdżam (koszt dojazdu do ustalenia); produkty mogę też sfotografować u siebie po przesyłce. Zdjęcia robię pod ustalone zastosowanie.',
   },
   {
     name: 'Selekcja i dostawa',
@@ -92,10 +143,45 @@ const steps = [
           ))
         }
       </div>
-      <p class="mt-10 max-w-2xl text-sm text-moss">
-        Każdy projekt wyceniam indywidualnie — zależnie od liczby ujęć, stylizacji
-        i licencji. Napisz, a w 1–2 dni robocze dostaniesz konkretną propozycję.
+    </section>
+
+    <!-- Cennik. -->
+    <section aria-labelledby="cennik" class="pb-20">
+      <h2 id="cennik" class="kicker mb-3">Cennik</h2>
+      <p class="mb-10 max-w-2xl text-sm text-moss">
+        Pakiety startowe poniżej to konkretny punkt wyjścia; większe i nietypowe projekty
+        wyceniam indywidualnie. Podane ceny są cenami netto. Dojazd na zlecenie poza
+        Częstochowę — możliwy, koszt do ustalenia.
       </p>
+
+      <div class="space-y-8">
+        {
+          pricing.map((p) => (
+            <article class="grid gap-3 border-t border-line pt-6 md:grid-cols-12 md:gap-8">
+              <div class="md:col-span-4">
+                <h3 class="display text-xl">{p.name}</h3>
+              </div>
+              <div class="md:col-span-3">
+                <p class="tech !text-[0.8rem] !text-bone">{p.price}</p>
+                {p.unit && <p class="tech mt-1 !text-[0.68rem]">{p.unit}</p>}
+              </div>
+              <p class="text-sm leading-relaxed text-moss md:col-span-5">{p.scope}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <h3 class="kicker mt-14 mb-6">Dodatkowe zdjęcia (dopłaty do pakietów)</h3>
+      <ul class="max-w-2xl">
+        {
+          extras.map((e) => (
+            <li class="flex items-baseline justify-between gap-6 border-t border-line py-3">
+              <span class="text-sm text-moss">{e.name}</span>
+              <span class="tech whitespace-nowrap !text-[0.75rem] !text-bone">{e.price}</span>
+            </li>
+          ))
+        }
+      </ul>
     </section>
 
     <!-- Przebieg współpracy. -->
